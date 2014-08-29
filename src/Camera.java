@@ -26,18 +26,25 @@ public class Camera
 
     
     public int getxPos() {
-        // TO DO: Fill In
+        return xPos;
     }
 
     public int getyPos() {
-        // TO DO: Fill In
+        return yPos;
     }
 
     
-    /** Create a new World object. */
-    public Camera(Player player, int screenwidth, int screenheight)
+    /** Create a new World object. 
+     * @throws SlickException */
+    public Camera(Player player, int screenwidth, int screenheight) throws SlickException
     {   
-        // TO DO: Fill In
+        this.screenwidth = screenwidth;
+        this.screenheight = screenheight;
+        unitFollow = player;
+        xPos = unitFollow.getxPos() - this.screenwidth/2;
+        yPos = unitFollow.getyPos() - this.screenheight/2;
+        
+        
     }
 
     /** Update the game camera to recentre it's viewpoint around the player 
@@ -45,31 +52,32 @@ public class Camera
     public void update()
     throws SlickException
     {
-        // TO DO: Fill In
+        xPos = unitFollow.getxPos() - screenwidth/2;
+        yPos = unitFollow.getyPos() - screenheight/2;
     }
     
     /** Returns the minimum x value on screen 
      */
     public int getMinX(){
-        // TO DO: Fill In
+        return 0;
     }
     
     /** Returns the maximum x value on screen 
      */
     public int getMaxX(){
-        // TO DO: Fill In
+       return 96 * 72; 
     }
     
     /** Returns the minimum y value on screen 
      */
     public int getMinY(){
-        // TO DO: Fill In
+        return 0;
     }
     
     /** Returns the maximum y value on screen 
      */
     public int getMaxY(){
-        // TO DO: Fill In
+        return 96 * 72;
     }
 
     /** Tells the camera to follow a given unit. 
