@@ -10,6 +10,7 @@ import org.newdawn.slick.tiled.TiledMap;
  * Represents the camera that controls our viewpoint.
  */
 public class Camera {
+
 	/** The unit this camera is following */
 	private Player unitFollow;
 	/** The game map */
@@ -97,5 +98,4 @@ public class Camera {
 	public void followUnit(Player unit) throws SlickException {
 		unitFollow = unit;
 	}
-
 }

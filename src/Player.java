@@ -7,7 +7,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 public class Player {
-	
+
 	/** Starting x coordinate of the player in the map */
 	public static final float PLAYER_START_X = 756;
 	/** Starting y coordinate of the player in the map */
@@ -25,8 +25,8 @@ public class Player {
 	/** It determines the whether playing is facing left or right. */
 	private boolean isFacingLeft;
 
-	/** 
-	 * Create a new Player object. 
+	/**
+	 * Create a new Player object.
 	 */
 	public Player() throws SlickException {
 		this.xPos = PLAYER_START_X;

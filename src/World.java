@@ -104,14 +104,17 @@ public class World {
 	 *            x coordinate of unit in map.
 	 * @param yPos
 	 *            y coordinate of unit in map.
-	 * @return boolean value true if terrain is blocked
+	 * @return boolean value true if terrain is blocked otherwise false
 	 */
 	public boolean terrainBlocked(Player unit, float xPos, float yPos) {
 		float xPosRight = xPos + unit.getWidth() / 3;
 		float yPosBottom = yPos + unit.getHeight() / 3;
 		float xPosLeft = xPos - unit.getWidth() / 3;
 		float yPosTop = yPos - unit.getHeight() / 3;
-
+		/*
+		 * checks whether terrain is blocked in given position and 4 surrounding
+		 * positions occupied by image.
+		 */
 		return (terrainBlocked(xPos, yPos)
 				|| terrainBlocked(xPosRight, yPosTop)
 				|| terrainBlocked(xPosRight, yPosBottom)
@@ -126,7 +129,7 @@ public class World {
 	 *            x coordinate of unit in map.
 	 * @param yPos
 	 *            y coordinate of unit in map.
-	 * @return boolean value true if terrain is blocked
+	 * @return boolean value true if terrain is blocked otherwise false
 	 */
 	public boolean terrainBlocked(float xPos, float yPos) {
 		// Checks if new position is inside map.

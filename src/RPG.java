@@ -27,7 +27,7 @@ public class RPG extends BasicGame {
 	public static final int screenheight = 600;
 
 	/**
-	 *  Create a new RPG object. 
+	 * Create a new RPG object.
 	 */
 	public RPG() {
 		super("RPG Game Engine");
