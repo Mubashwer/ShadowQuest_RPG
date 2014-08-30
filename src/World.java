@@ -13,8 +13,6 @@ import org.newdawn.slick.tiled.TiledMap;
  */
 public class World {
 
-	/** The location of the map file within assets directory. */
-	public static final String MAP_LOCATION = "/map.tmx";
 	/** The game map */
 	private TiledMap map;
 	/** The main unit of the game */
@@ -22,18 +20,40 @@ public class World {
 	/** The camera which follows the player */
 	private Camera camera;
 
-	/** Create a new World object. */
+	/** 
+	 * Create a new World object.
+	 *  */
 	public World() throws SlickException {
-		map = new TiledMap(RPG.ASSETS_LOCATION + MAP_LOCATION,
+		map = new TiledMap(RPG.ASSETS_LOCATION + RPG.MAP_LOCATION,
 				RPG.ASSETS_LOCATION);
 		player = new Player();
-		camera = new Camera(player, RPG.screenwidth, RPG.screenheight);
+		camera = new Camera(player, map, RPG.screenwidth, RPG.screenheight);
 	}
 
+	/**
+	 * It returns width of map in number of tiles.
+	 */
+	public int getWidth() {
+		return map.getWidth();
+	}
+
+	/**
+	 * It returns height of map in number of tiles.
+	 */
+	public int getHeight() {
+		return map.getHeight();
+	}
+
+	/**
+	 * It returns width of a tile in map.
+	 */
 	public int getTileWidth() {
 		return map.getTileWidth();
 	}
 
+	/**
+	 * It returns height of a tile in map.
+	 */
 	public int getTileHeight() {
 		return map.getTileHeight();
 	}
@@ -49,7 +69,7 @@ public class World {
 	 *            Time passed since last frame (milliseconds).
 	 */
 	public void update(float xDir, float yDir, int delta) throws SlickException {
-		player.move(this, xDir, yDir, delta);
+		player.update(this, xDir, yDir, delta);
 		camera.update();
 	}
 
@@ -76,9 +96,19 @@ public class World {
 				screenHeightTiles);
 		player.draw(camera.getxPos(), camera.getyPos());
 	}
-
+	
+	/**
+	 * Checks whether given location in map is blocked or not.
+	 * 
+	 * @param xPos
+	 *            x coordinate of unit in map.
+	 * @param yPos
+	 *            y coordinate of unit in map.
+	 * @return boolean value true if terrain is blocked
+	 */
 	public boolean terrainBlocked(Player unit, float xPos, float yPos) {
-
+		/* Since player image is drawn based on its centre, a portion of its
+		width needs to be taken into account as well. */
 		float xPosRight = xPos + unit.getWidth() / 3;
 		float yPosBottom = yPos + unit.getHeight() / 3;
 		float xPosLeft = xPos - unit.getWidth() / 3;
@@ -87,8 +117,8 @@ public class World {
 		return (terrainBlocked(xPos, yPos)
 				|| terrainBlocked(xPosRight, yPosTop)
 				|| terrainBlocked(xPosRight, yPosBottom)
-				|| terrainBlocked(xPosLeft, yPosTop) 
-				|| terrainBlocked(xPosLeft, yPosBottom));
+				|| terrainBlocked(xPosLeft, yPosTop) || terrainBlocked(
+					xPosLeft, yPosBottom));
 	}
 
 	/**
@@ -101,9 +131,16 @@ public class World {
 	 * @return boolean value true if terrain is blocked
 	 */
 	public boolean terrainBlocked(float xPos, float yPos) {
+		// Checks if new position is inside map.
+		if (xPos < 0 || xPos > getWidth() * getTileWidth()) {
+			return true;
+		}
+		if (yPos < 0 || yPos > getHeight() * getTileHeight()) {
+			return true;
+		}
 		// Player position in tiles.
-		int xTile = (int) (xPos / map.getTileWidth());
-		int yTile = (int) (yPos / map.getTileHeight());
+		int xTile = (int) (xPos / getTileWidth());
+		int yTile = (int) (yPos / getTileHeight());
 
 		int tileId = map.getTileId(xTile, yTile, 0);
 		String block = map.getTileProperty(tileId, "block", "0");

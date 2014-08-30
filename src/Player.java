@@ -20,55 +20,44 @@ public class Player {
 	private float xPos;
 	/** y coordinate of player in map. */
 	private float yPos;
-	/** It refers to the image of player which is drawn. */
+	/** It is the image of the player. */
 	private Image playerImg;
-	/** It refers to the image of player facing right. */
-	private Image playerImgRight;
-	/** It refers to the image of player facing left. */
-	private Image playerImgLeft;
+	/** It determines the whether playing is facing left or right. */
+	private boolean isFacingLeft;
 
-	/** Create a new Player object. */
+	/** 
+	 * Create a new Player object. 
+	 */
 	public Player() throws SlickException {
 		this.xPos = PLAYER_START_X;
 		this.yPos = PLAYER_START_Y;
-		// Original image of player faces right.
-		playerImgRight = new Image(RPG.ASSETS_LOCATION + PLAYER_IMAGE_LOCATION);
-		playerImgLeft = playerImgRight.getFlippedCopy(true, false);
-		playerImg = playerImgRight;
+		playerImg = new Image(RPG.ASSETS_LOCATION + PLAYER_IMAGE_LOCATION);
+		isFacingLeft = false;
 	}
+
 	/**
-	 * It gets width of player
-	 * 
-	 * @return width of player image
-	 * 
+	 * It returns width of player
 	 */
 	int getWidth() {
 		return playerImg.getWidth();
 	}
+
 	/**
-	 * It gets height of player
-	 * 
-	 * @return height of player image
-	 * 
+	 * It returns height of player.
 	 */
 	int getHeight() {
 		return playerImg.getWidth();
 	}
+
 	/**
-	 * It gets x coordinate of player
-	 * 
-	 * @return x coordinate of player
-	 * 
+	 * It returns x coordinate of player
 	 */
 	public float getxPos() {
 		return xPos;
 	}
 
 	/**
-	 * It gets y coordinate of player
-	 * 
-	 * @return y coordinate of player
-	 * 
+	 * It returns y coordinate of player
 	 */
 	public float getyPos() {
 		return yPos;
@@ -83,7 +72,10 @@ public class Player {
 	 *            y coordinate of camera to draw player
 	 */
 	public void draw(int xPosCam, int yPosCam) throws SlickException {
-		playerImg.drawCentered((int)xPos - xPosCam, (int)yPos - yPosCam);
+		Image img = playerImg;
+		if (isFacingLeft == true)
+			img = playerImg.getFlippedCopy(true, false);
+		img.drawCentered((int) xPos - xPosCam, (int) yPos - yPosCam);
 	}
 
 	/**
@@ -98,15 +90,15 @@ public class Player {
 	 * @param delta
 	 *            Time passed since last frame (milliseconds).
 	 */
-	public void move(World world, float xDir, float yDir, int delta)
+	public void update(World world, float xDir, float yDir, int delta)
 			throws SlickException {
 		float pixels = SPEED * delta; // distance moved in pixels.
 
 		// Sets player to face in direction of movement.
 		if (xDir == 1)
-			playerImg = playerImgRight;
+			isFacingLeft = false;
 		else if (xDir == -1)
-			playerImg = playerImgLeft;
+			isFacingLeft = true;
 
 		// Player position after move.
 		float xPosNew = xPos + (xDir * pixels);

@@ -19,7 +19,8 @@ public class RPG extends BasicGame
     
 	/** The location of assets directory. */
     public static final String ASSETS_LOCATION = "assets";
-
+	/** The location of the map file within assets directory. */
+	public static final String MAP_LOCATION = "/map.tmx";
     /** Screen width, in pixels. */
     public static final int screenwidth = 800;
     /** Screen height, in pixels. */

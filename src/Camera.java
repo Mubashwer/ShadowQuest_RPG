@@ -1,19 +1,19 @@
 /* SWEN20003 Object Oriented Software Development
  * RPG Game Engine
- * Author: <Your name> <Your login>
+ * Author: Mubashwer Salman Khurshid (mskh, 601738)
  */
 
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.tiled.TiledMap;
 
 /** Represents the camera that controls our viewpoint.
  */
 public class Camera
 {
-
     /** The unit this camera is following */
     private Player unitFollow;
-    
-    /** The width and height of the screen */
+	/** The game map */
+	private TiledMap map;
     /** Screen width, in pixels. */
     public final int screenwidth;
     /** Screen height, in pixels. */
@@ -34,53 +34,64 @@ public class Camera
     }
 
     
-    /** Create a new World object. 
-     * @throws SlickException */
-    public Camera(Player player, int screenwidth, int screenheight) throws SlickException
+    /** 
+     * Create a new World object. 
+     */
+    public Camera(Player player, TiledMap map, int screenwidth, int screenheight) throws SlickException
     {   
         this.screenwidth = screenwidth;
         this.screenheight = screenheight;
-        unitFollow = player;
-        xPos = (int)unitFollow.getxPos() - this.screenwidth/2;
-        yPos = (int)unitFollow.getyPos() - this.screenheight/2;
-        
-        
+        this.map = map;
+        followUnit(player);
+        update();
     }
 
-    /** Update the game camera to recentre it's viewpoint around the player 
+    /** 
+     * Update the game camera to recentre it's viewpoint around the player 
      */
     public void update()
     throws SlickException
     {
-        xPos = (int)unitFollow.getxPos() - screenwidth/2;
-        yPos = (int)unitFollow.getyPos() - screenheight/2;
+        
+    	int xPosNew = (int)unitFollow.getxPos() - screenwidth/2;
+    	int yPosNew = (int)unitFollow.getyPos() - screenheight/2;
+    	
+    	if(xPosNew >= getMinX() && xPosNew <= getMaxX())
+        	xPos = xPosNew;
+        if(yPosNew >= getMinY() && yPosNew <= getMaxY())
+        	yPos = yPosNew;
     }
     
-    /** Returns the minimum x value on screen 
+    /** 
+     * Returns the minimum x value on screen 
      */
     public int getMinX(){
         return 0;
     }
     
-    /** Returns the maximum x value on screen 
+    /** 
+     * Returns the maximum x value on screen 
      */
     public int getMaxX(){
-       return 96 * 72; 
+       return (map.getWidth() * map.getTileWidth()) - screenwidth - 1; 
     }
     
-    /** Returns the minimum y value on screen 
+    /** 
+     * Returns the minimum y value on screen 
      */
     public int getMinY(){
         return 0;
     }
     
-    /** Returns the maximum y value on screen 
+    /** 
+     * Returns the maximum y value on screen 
      */
     public int getMaxY(){
-        return 96 * 72;
+        return (map.getHeight() * map.getTileHeight()) - screenheight - 1;
     }
 
-    /** Tells the camera to follow a given unit. 
+    /** 
+     * Tells the camera to follow a given unit. 
      */
     public void followUnit(Player unit)
     throws SlickException
