@@ -20,9 +20,9 @@ public class World {
 	/** The camera which follows the player */
 	private Camera camera;
 
-	/** 
+	/**
 	 * Create a new World object.
-	 *  */
+	 * */
 	public World() throws SlickException {
 		map = new TiledMap(RPG.ASSETS_LOCATION + RPG.MAP_LOCATION,
 				RPG.ASSETS_LOCATION);
@@ -96,7 +96,7 @@ public class World {
 				screenHeightTiles);
 		player.draw(camera.getxPos(), camera.getyPos());
 	}
-	
+
 	/**
 	 * Checks whether given location in map is blocked or not.
 	 * 
@@ -107,8 +107,6 @@ public class World {
 	 * @return boolean value true if terrain is blocked
 	 */
 	public boolean terrainBlocked(Player unit, float xPos, float yPos) {
-		/* Since player image is drawn based on its centre, a portion of its
-		width needs to be taken into account as well. */
 		float xPosRight = xPos + unit.getWidth() / 3;
 		float yPosBottom = yPos + unit.getHeight() / 3;
 		float xPosLeft = xPos - unit.getWidth() / 3;
