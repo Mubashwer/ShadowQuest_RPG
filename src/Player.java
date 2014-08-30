@@ -13,7 +13,7 @@ public class Player {
 	/** Starting y coordinate of the player in the map */
 	public static final float PLAYER_START_Y = 684;
 	/** Speed of player in pixels per millisecond. */
-	public static final float SPEED = 0.3F;
+	public static final float SPEED = 0.25F;
 	/** The location of the player image within assets directory. */
 	public static final String PLAYER_IMAGE_LOCATION = "/units/player.png";
 	/** x coordinate of player in map. */
