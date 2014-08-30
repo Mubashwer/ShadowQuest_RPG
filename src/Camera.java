@@ -41,8 +41,8 @@ public class Camera
         this.screenwidth = screenwidth;
         this.screenheight = screenheight;
         unitFollow = player;
-        xPos = unitFollow.getxPos() - this.screenwidth/2;
-        yPos = unitFollow.getyPos() - this.screenheight/2;
+        xPos = (int)unitFollow.getxPos() - this.screenwidth/2;
+        yPos = (int)unitFollow.getyPos() - this.screenheight/2;
         
         
     }
@@ -52,8 +52,8 @@ public class Camera
     public void update()
     throws SlickException
     {
-        xPos = unitFollow.getxPos() - screenwidth/2;
-        yPos = unitFollow.getyPos() - screenheight/2;
+        xPos = (int)unitFollow.getxPos() - screenwidth/2;
+        yPos = (int)unitFollow.getyPos() - screenheight/2;
     }
     
     /** Returns the minimum x value on screen 
@@ -82,10 +82,10 @@ public class Camera
 
     /** Tells the camera to follow a given unit. 
      */
-    public void followUnit(Object unit)
+    public void followUnit(Player unit)
     throws SlickException
     {
-        // TO DO: Fill In
+        unitFollow = unit;
     }
     
 }

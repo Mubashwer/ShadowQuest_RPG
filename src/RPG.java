@@ -16,13 +16,16 @@ import org.newdawn.slick.SlickException;
 public class RPG extends BasicGame
 {
     private World world;
+    
+	/** The location of assets directory. */
+    public static final String ASSETS_LOCATION = "assets";
 
     /** Screen width, in pixels. */
     public static final int screenwidth = 800;
     /** Screen height, in pixels. */
     public static final int screenheight = 600;
 
-    /** Create a new RPG object. */
+	/** Create a new RPG object. */
     public RPG()
     {
         super("RPG Game Engine");
@@ -50,19 +53,19 @@ public class RPG extends BasicGame
         Input input = gc.getInput();
 
         // Update the player's movement direction based on keyboard presses.
-        double dir_x = 0;
-        double dir_y = 0;
+        float xDir = 0;
+        float yDir = 0;
         if (input.isKeyDown(Input.KEY_DOWN))
-            dir_y += 1;
+            yDir += 1;
         if (input.isKeyDown(Input.KEY_UP))
-            dir_y -= 1;
+            yDir -= 1;
         if (input.isKeyDown(Input.KEY_LEFT))
-            dir_x -= 1;
+            xDir -= 1;
         if (input.isKeyDown(Input.KEY_RIGHT))
-            dir_x += 1;
+            xDir += 1;
 
         // Let World.update decide what to do with this data.
-        world.update(dir_x, dir_y, delta);
+        world.update(xDir, yDir, delta);
     }
 
     /** Render the entire screen, so it reflects the current game state.

@@ -1,6 +1,6 @@
-/* 433-294 Object Oriented Software Development
+/* SWEN20003 Object Oriented Software Development
  * RPG Game Engine
- * Author: <Your name> <Your login>
+ * Author: Mubashwer Salman Khurshid (mskh, 601738)
  */
 
 import org.newdawn.slick.Graphics;
@@ -13,33 +13,44 @@ import org.newdawn.slick.tiled.TiledMap;
  */
 public class World {
 
+	/** The location of the map file within assets directory. */
+	public static final String MAP_LOCATION = "/map.tmx";
+	/** The game map */
 	private TiledMap map;
-	private Player mainUnit;
+	/** The main unit of the game */
+	private Player player;
+	/** The camera which follows the player */
 	private Camera camera;
 
 	/** Create a new World object. */
 	public World() throws SlickException {
-		map = new TiledMap("assets/map.tmx", "assets/");
-		mainUnit = new Player();
-		camera = new Camera(mainUnit, RPG.screenwidth, RPG.screenheight);
+		map = new TiledMap(RPG.ASSETS_LOCATION + MAP_LOCATION,
+				RPG.ASSETS_LOCATION);
+		player = new Player();
+		camera = new Camera(player, RPG.screenwidth, RPG.screenheight);
+	}
+
+	public int getTileWidth() {
+		return map.getTileWidth();
+	}
+
+	public int getTileHeight() {
+		return map.getTileHeight();
 	}
 
 	/**
 	 * Update the game state for a frame.
 	 * 
 	 * @param dir_x
-	 *            The player's movement in the x axis (-1, 0 or 1).
+	 *            The 's movement in the x axis (-1, 0 or 1).
 	 * @param dir_y
-	 *            The player's movement in the y axis (-1, 0 or 1).
+	 *            The 's movement in the y axis (-1, 0 or 1).
 	 * @param delta
 	 *            Time passed since last frame (milliseconds).
 	 */
-	public void update(double dir_x, double dir_y, int delta)
-			throws SlickException {
-		mainUnit.move((int)dir_x, (int)dir_y, delta);
+	public void update(float xDir, float yDir, int delta) throws SlickException {
+		player.move(this, xDir, yDir, delta);
 		camera.update();
-		
-		
 	}
 
 	/**
@@ -49,17 +60,53 @@ public class World {
 	 *            The Slick graphics object, used for drawing.
 	 */
 	public void render(Graphics g) throws SlickException {
-		// TODO: Fill in
-		int screenWidthTile = (RPG.screenwidth / map.getTileWidth()) + 2; // 13 tiles
-		int screenHeightTile = (RPG.screenheight / map.getTileHeight())+ 2; // 10 tiles
-		
-		int xTile = camera.getxPos() / map.getTileWidth(); // camera position in tiles
-		int xOffset = camera.getxPos() % map.getTileWidth(); // pixels offset
-		int yTile = camera.getyPos() / map.getTileHeight();
-		int yOffset = camera.getyPos() % map.getTileHeight();
-		
+		// The screen size in tiles
+		int screenWidthTiles = (RPG.screenwidth / getTileWidth()) + 2;
+		int screenHeightTiles = (RPG.screenheight / getTileHeight()) + 2;
 
-		map.render(-xOffset,-yOffset, xTile, yTile, screenWidthTile,screenHeightTile); //render map
-		mainUnit.draw(RPG.screenwidth/2, RPG.screenheight/2); // render player
+		// Camera position in tiles
+		int xTile = camera.getxPos() / getTileWidth();
+		int yTile = camera.getyPos() / getTileHeight();
+
+		// Pixels offset after camera is positioned in tiles
+		int xOffset = camera.getxPos() % getTileWidth();
+		int yOffset = camera.getyPos() % getTileHeight();
+
+		map.render(-xOffset, -yOffset, xTile, yTile, screenWidthTiles,
+				screenHeightTiles);
+		player.draw(camera.getxPos(), camera.getyPos());
+	}
+
+	public boolean terrainBlocked(Player unit, float xPos, float yPos) {
+
+		float xPosRight = xPos + unit.getWidth() / 3;
+		float yPosBottom = yPos + unit.getHeight() / 3;
+		float xPosLeft = xPos - unit.getWidth() / 3;
+		float yPosTop = yPos - unit.getHeight() / 3;
+
+		return (terrainBlocked(xPos, yPos)
+				|| terrainBlocked(xPosRight, yPosTop)
+				|| terrainBlocked(xPosRight, yPosBottom)
+				|| terrainBlocked(xPosLeft, yPosTop) 
+				|| terrainBlocked(xPosLeft, yPosBottom));
+	}
+
+	/**
+	 * Checks whether given location in map is blocked or not.
+	 * 
+	 * @param xPos
+	 *            x coordinate of unit in map.
+	 * @param yPos
+	 *            y coordinate of unit in map.
+	 * @return boolean value true if terrain is blocked
+	 */
+	public boolean terrainBlocked(float xPos, float yPos) {
+		// Player position in tiles.
+		int xTile = (int) (xPos / map.getTileWidth());
+		int yTile = (int) (yPos / map.getTileHeight());
+
+		int tileId = map.getTileId(xTile, yTile, 0);
+		String block = map.getTileProperty(tileId, "block", "0");
+		return block.equals("1");
 	}
 }
