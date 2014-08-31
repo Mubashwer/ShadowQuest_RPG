@@ -76,6 +76,8 @@ public class Player {
 		if (isFacingLeft == true)
 			img = playerImg.getFlippedCopy(true, false);
 		img.drawCentered((int) xPos - xPosCam, (int) yPos - yPosCam);
+		System.out.print(xPos);
+		System.out.println(" " + yPos);
 	}
 
 	/**

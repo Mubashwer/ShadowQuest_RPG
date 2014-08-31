@@ -133,10 +133,10 @@ public class World {
 	 */
 	public boolean terrainBlocked(float xPos, float yPos) {
 		// Checks if new position is inside map.
-		if (xPos < 0 || xPos > getWidth() * getTileWidth()) {
+		if (xPos < 0 || xPos >= getWidth() * getTileWidth()) {
 			return true;
 		}
-		if (yPos < 0 || yPos > getHeight() * getTileHeight()) {
+		if (yPos < 0 || yPos >= getHeight() * getTileHeight()) {
 			return true;
 		}
 		// Player position in tiles.
