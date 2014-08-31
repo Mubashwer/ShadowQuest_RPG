@@ -105,10 +105,10 @@ public class Player {
 		float yPosNew = yPos + (yDir * pixels);
 		
 		// Checks if player can move in x or y direction or both.
-		if (!world.terrainBlocked(this, xPosNew, yPos)) {
+		if (!world.terrainBlocked(xPosNew, yPos)) {
 			xPos = xPosNew;
 		} 
-		if (!world.terrainBlocked(this, xPos, yPosNew)) {
+		if (!world.terrainBlocked(xPos, yPosNew)) {
 			yPos = yPosNew;
 		}
 	}
