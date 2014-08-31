@@ -15,6 +15,10 @@ public class World {
 
 	/** The game map */
 	private TiledMap map;
+	/** Screen width in tiles */
+	private final int screenWidthTiles;
+	/** Screen height in tiles */
+	private final int screenHeightTiles;
 	/** The main unit of the game */
 	private Player player;
 	/** The camera which follows the player */
@@ -28,6 +32,9 @@ public class World {
 				RPG.ASSETS_LOCATION);
 		player = new Player();
 		camera = new Camera(player, map, RPG.screenwidth, RPG.screenheight);
+		// The screen size in tiles 
+		screenWidthTiles = (RPG.screenwidth / getTileWidth()) + 2;
+		screenHeightTiles = (RPG.screenheight / getTileHeight()) + 2;
 	}
 
 	/**
@@ -80,10 +87,6 @@ public class World {
 	 *            The Slick graphics object, used for drawing.
 	 */
 	public void render(Graphics g) throws SlickException {
-		// The screen size in tiles
-		int screenWidthTiles = (RPG.screenwidth / getTileWidth()) + 2;
-		int screenHeightTiles = (RPG.screenheight / getTileHeight()) + 2;
-
 		// Camera position in tiles
 		int xTile = camera.getxPos() / getTileWidth();
 		int yTile = camera.getyPos() / getTileHeight();
@@ -98,7 +101,8 @@ public class World {
 	}
 
 	/**
-	 * Checks whether given location in map is blocked or not.
+	 * Checks whether given location in map is blocked or not. It also checks 4
+	 * corner pixels depending on player width and height.
 	 * 
 	 * @param xPos
 	 *            x coordinate of unit in map.
@@ -107,14 +111,17 @@ public class World {
 	 * @return boolean value true if terrain is blocked otherwise false
 	 */
 	public boolean terrainBlocked(Player unit, float xPos, float yPos) {
-		float xPosRight = xPos + unit.getWidth() / 3;
-		float yPosBottom = yPos + unit.getHeight() / 3;
-		float xPosLeft = xPos - unit.getWidth() / 3;
-		float yPosTop = yPos - unit.getHeight() / 3;
 		/*
-		 * checks whether terrain is blocked in given position and 4 surrounding
-		 * positions occupied by image.
+		 * It checks given position for terrain blocking and also checks terrain
+		 * blocking for 4 corners of a rectangle formed with xPos and yPos as
+		 * centre. The sides of the rectangle are 1/2 of the sides of the player
+		 * image.
 		 */
+		float yPosTop = yPos - unit.getHeight() / 4;
+		float yPosBottom = yPos + unit.getHeight() / 4;
+		float xPosLeft = xPos - unit.getWidth() / 4;
+		float xPosRight = xPos + unit.getWidth() / 4;
+
 		return (terrainBlocked(xPos, yPos)
 				|| terrainBlocked(xPosRight, yPosTop)
 				|| terrainBlocked(xPosRight, yPosBottom)
