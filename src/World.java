@@ -39,11 +39,11 @@ public class World {
 				"block");
 		player = new Player();
 		camera = new Camera(player, map, RPG.screenwidth, RPG.screenheight);
-		
+
 		// The screen size in tiles
 		screenWidthTiles = (RPG.screenwidth / getTileWidth()) + 2;
 		screenHeightTiles = (RPG.screenheight / getTileHeight()) + 2;
-		
+
 		path = null;
 		step = 0;
 	}
@@ -90,10 +90,10 @@ public class World {
 			int mouseScreenX, int mouseScreenY, boolean autoMove)
 			throws SlickException {
 
-		/* It is needed to find path. */
 		AStarPathFinder pathFinder = new AStarPathFinder(map, getWidth()
-				* getTileWidth(), false);
+				* getHeight(), false);
 
+		// Player position in tiles.
 		int xPosTile = (int) (player.getxPos() / getTileWidth());
 		int yPosTile = (int) (player.getyPos() / getTileHeight());
 
@@ -115,14 +115,14 @@ public class World {
 					mouseTileX, mouseTileY);
 			this.path = path;
 			step = 0;
-
+			/* If path could not be found */
 			if (path == null) {
 				this.path = null;
 				autoMove = false;
 			}
 		}
-		// If the player is in the middle of an auto-play when path previously
-		// found.
+		// If the player is in the middle of an auto-move when path was
+		// found in a previous update.
 		else if (path != null) {
 
 			// Direction is towards the next step.
@@ -137,16 +137,22 @@ public class World {
 
 			/*
 			 * When the player reaches the step, the player should try to reach
-			 * the next step during next update.
+			 * the next step during next update call.
 			 */
 			if (xPosTile == path.getX(step) && yPosTile == path.getY(step))
 				step++;
 
-			// When player finally reaches the target.
-			if (step == path.getLength())
+			// When player finally reaches the target...
+			if (step >= path.getLength()) {
 				path = null;
+				step = 0;
+			}
 		}
-		player.update(this, xDir, yDir, delta);
+		// If player gets trapped due to any error, auto-move is cancelled.
+		if (player.update(this, xDir, yDir, delta) == false) {
+			path = null;
+			step = 0;
+		}
 		camera.update();
 	}
 
@@ -169,7 +175,7 @@ public class World {
 				screenHeightTiles);
 		player.draw(camera.getxPos(), camera.getyPos());
 	}
-	
+
 	/**
 	 * Checks whether given location in map is blocked or not.
 	 * 
@@ -189,8 +195,8 @@ public class World {
 		}
 		int xTile = (int) (xPos / getTileWidth());
 		int yTile = (int) (yPos / getTileHeight());
-		
+
 		// checks for terrain blocking.
-		return map.blocked(null, xTile, yTile);
+		return (map.blocked(null, xTile, yTile));
 	}
 }

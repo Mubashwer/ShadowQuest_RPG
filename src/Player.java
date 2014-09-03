@@ -7,7 +7,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.util.pathfinding.Mover;
 
-public class Player implements Mover{
+public class Player implements Mover {
 
 	/** Starting x coordinate of the player in the map */
 	public static final float PLAYER_START_X = 756;
@@ -90,10 +90,12 @@ public class Player implements Mover{
 	 *            The 's movement in the y axis (-1, 0 or 1).
 	 * @param delta
 	 *            Time passed since last frame (milliseconds).
+	 * @return Boolean value indicating whether the player has moved or not.
 	 */
-	public void update(World world, float xDir, float yDir, int delta)
+	public boolean update(World world, float xDir, float yDir, int delta)
 			throws SlickException {
 		float pixels = SPEED * delta; // distance moved in pixels.
+		boolean moved = true;
 
 		// Sets player to face in direction of movement.
 		if (xDir == 1)
@@ -104,13 +106,27 @@ public class Player implements Mover{
 		// Player position after move.
 		float xPosNew = xPos + (xDir * pixels);
 		float yPosNew = yPos + (yDir * pixels);
-		
-		// Checks if player can move in x or y direction or both.
-		if (!world.blocked(xPosNew, yPos)) {
-			xPos = xPosNew;
-		} 
-		if (!world.blocked(xPos, yPosNew)) {
-			yPos = yPosNew;
+
+		// If player can't move to new coordinate..
+		if (world.blocked(xPosNew, yPosNew)) {
+			// Then player tries to move horizontally only..
+			if (!world.blocked(xPosNew, yPos))
+				xPos = xPosNew;
+			// If he can't, then he tries to move vertically only.
+			else if (!world.blocked(xPos, yPosNew))
+				yPos = yPosNew;
+			else
+				moved = false;
 		}
+		// If player can move to new coordinate and he can move horizontally
+		// and/or vertically...
+		else if (!world.blocked(xPosNew, yPos) || !world.blocked(xPos, yPosNew)) {
+			// Then he can move to new coordinate.
+			xPos = xPosNew;
+			yPos = yPosNew;
+		} else
+			moved = false;
+
+		return moved;
 	}
 }

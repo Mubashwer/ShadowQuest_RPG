@@ -12,17 +12,36 @@ public class Camera {
 
 	/** The unit this camera is following */
 	private Player unitFollow;
-	/** The game map */
-	private SimpleMap map;
 	/** Screen width, in pixels. */
 	public final int screenwidth;
 	/** Screen height, in pixels. */
 	public final int screenheight;
 
-	/** The camera's position in the world, in x and y coordinates. */
+	/** The camera's top-left position in the world, in x and y coordinates. */
 	private int xPos;
 	private int yPos;
+	
+	/** The camera's farthest possible top-left position in map. */
+	private final int xPosMax;
+	private final int yPosMax;
 
+	/**
+	 * Create a new World object.
+	 */
+	public Camera(Player player, SimpleMap map, int screenwidth, int screenheight)
+			throws SlickException {
+		this.screenwidth = screenwidth;
+		this.screenheight = screenheight;
+		followUnit(player);
+		
+		xPos = (int) unitFollow.getxPos();
+		yPos = (int) unitFollow.getyPos();
+		update();
+		
+		xPosMax = (map.getWidthInTiles() * map.getTileWidth()) - screenwidth - 1;
+		yPosMax = (map.getHeightInTiles() * map.getTileHeight()) - screenheight - 1;
+	}
+	
 	/**
 	 * It returns the x coordinate of camera.
 	 */
@@ -36,21 +55,7 @@ public class Camera {
 	public int getyPos() {
 		return yPos;
 	}
-
-	/**
-	 * Create a new World object.
-	 */
-	public Camera(Player player, SimpleMap map, int screenwidth, int screenheight)
-			throws SlickException {
-		this.screenwidth = screenwidth;
-		this.screenheight = screenheight;
-		this.map = map;
-		followUnit(player);
-		xPos = (int) unitFollow.getxPos();
-		yPos = (int) unitFollow.getyPos();
-		update();
-	}
-
+		
 	/**
 	 * Update the game camera to recentre it's viewpoint around the player
 	 */
@@ -65,31 +70,31 @@ public class Camera {
 	}
 
 	/**
-	 * Returns the minimum x value on screen
+	 * Returns the minimum top-left x coordinate of camera in map.
 	 */
 	public int getMinX() {
 		return 0;
 	}
 
 	/**
-	 * Returns the maximum x value on screen
+	 * Returns the maximum top-left x coordinate of camera in map.
 	 */
 	public int getMaxX() {
-		return (map.getWidthInTiles() * map.getTileWidth()) - screenwidth - 1;
+		return xPosMax;
 	}
 
 	/**
-	 * Returns the minimum y value on screen
+	 * Returns the minimum top-left y coordinate of camera in map.
 	 */
 	public int getMinY() {
 		return 0;
 	}
 
 	/**
-	 * Returns the maximum y value on screen
+	 * Returns the maximum top-left y coordinate of camera in map.
 	 */
 	public int getMaxY() {
-		return (map.getHeightInTiles() * map.getTileHeight()) - screenheight - 1;
+		return yPosMax;
 	}
 
 	/**
