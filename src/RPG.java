@@ -60,17 +60,34 @@ public class RPG extends BasicGame {
 		// Update the player's movement direction based on keyboard presses.
 		float xDir = 0;
 		float yDir = 0;
-		if (input.isKeyDown(Input.KEY_DOWN))
+		boolean autoMove = true;
+		boolean mousePressed = false;
+		
+		if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) 
+			mousePressed = true;
+		
+		int mouseScreenX = input.getMouseX();
+		int mouseScreenY = input.getMouseY();
+		
+		if (input.isKeyDown(Input.KEY_DOWN)) {
 			yDir += 1;
-		if (input.isKeyDown(Input.KEY_UP))
+			autoMove = false;
+		}
+		if (input.isKeyDown(Input.KEY_UP)) {
 			yDir -= 1;
-		if (input.isKeyDown(Input.KEY_LEFT))
+			autoMove = false;
+		}
+		if (input.isKeyDown(Input.KEY_LEFT)) {
 			xDir -= 1;
-		if (input.isKeyDown(Input.KEY_RIGHT))
+			autoMove = false;
+		}
+		if (input.isKeyDown(Input.KEY_RIGHT)) {
 			xDir += 1;
+			autoMove = false;
+		}
 
 		// Let World.update decide what to do with this data.
-		world.update(xDir, yDir, delta);
+		world.update(xDir, yDir, delta, mousePressed, mouseScreenX, mouseScreenY,  autoMove);
 	}
 
 	/**

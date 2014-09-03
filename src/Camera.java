@@ -4,7 +4,6 @@
  */
 
 import org.newdawn.slick.SlickException;
-import org.newdawn.slick.tiled.TiledMap;
 
 /**
  * Represents the camera that controls our viewpoint.
@@ -14,7 +13,7 @@ public class Camera {
 	/** The unit this camera is following */
 	private Player unitFollow;
 	/** The game map */
-	private TiledMap map;
+	private SimpleMap map;
 	/** Screen width, in pixels. */
 	public final int screenwidth;
 	/** Screen height, in pixels. */
@@ -41,7 +40,7 @@ public class Camera {
 	/**
 	 * Create a new World object.
 	 */
-	public Camera(Player player, TiledMap map, int screenwidth, int screenheight)
+	public Camera(Player player, SimpleMap map, int screenwidth, int screenheight)
 			throws SlickException {
 		this.screenwidth = screenwidth;
 		this.screenheight = screenheight;
@@ -76,7 +75,7 @@ public class Camera {
 	 * Returns the maximum x value on screen
 	 */
 	public int getMaxX() {
-		return (map.getWidth() * map.getTileWidth()) - screenwidth - 1;
+		return (map.getWidthInTiles() * map.getTileWidth()) - screenwidth - 1;
 	}
 
 	/**
@@ -90,7 +89,7 @@ public class Camera {
 	 * Returns the maximum y value on screen
 	 */
 	public int getMaxY() {
-		return (map.getHeight() * map.getTileHeight()) - screenheight - 1;
+		return (map.getHeightInTiles() * map.getTileHeight()) - screenheight - 1;
 	}
 
 	/**

@@ -5,8 +5,9 @@
 
 import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.util.pathfinding.Mover;
 
-public class Player {
+public class Player implements Mover{
 
 	/** Starting x coordinate of the player in the map */
 	public static final float PLAYER_START_X = 756;
@@ -105,10 +106,10 @@ public class Player {
 		float yPosNew = yPos + (yDir * pixels);
 		
 		// Checks if player can move in x or y direction or both.
-		if (!world.terrainBlocked(xPosNew, yPos)) {
+		if (!world.blocked(xPosNew, yPos)) {
 			xPos = xPosNew;
 		} 
-		if (!world.terrainBlocked(xPos, yPosNew)) {
+		if (!world.blocked(xPos, yPosNew)) {
 			yPos = yPosNew;
 		}
 	}
