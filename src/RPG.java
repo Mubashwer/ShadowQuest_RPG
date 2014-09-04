@@ -57,37 +57,30 @@ public class RPG extends BasicGame {
 		// Get data about the current input (keyboard state).
 		Input input = gc.getInput();
 
-		// Update the player's movement direction based on keyboard presses.
 		float xDir = 0;
 		float yDir = 0;
-		boolean autoMove = true;
 		boolean mousePressed = false;
-		
-		if(input.isMousePressed(Input.MOUSE_LEFT_BUTTON)) 
+
+		if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON))
 			mousePressed = true;
-		
+
 		int mouseScreenX = input.getMouseX();
 		int mouseScreenY = input.getMouseY();
-		
-		if (input.isKeyDown(Input.KEY_DOWN)) {
+
+		// Update the player's movement direction based on keyboard presses.
+		if (input.isKeyDown(Input.KEY_DOWN))
 			yDir += 1;
-			autoMove = false;
-		}
-		if (input.isKeyDown(Input.KEY_UP)) {
+		if (input.isKeyDown(Input.KEY_UP))
 			yDir -= 1;
-			autoMove = false;
-		}
-		if (input.isKeyDown(Input.KEY_LEFT)) {
+		if (input.isKeyDown(Input.KEY_LEFT))
 			xDir -= 1;
-			autoMove = false;
-		}
-		if (input.isKeyDown(Input.KEY_RIGHT)) {
+		if (input.isKeyDown(Input.KEY_RIGHT))
 			xDir += 1;
-			autoMove = false;
-		}
+		boolean arrowKeyPressed = (xDir != 0) || (yDir != 0);
 
 		// Let World.update decide what to do with this data.
-		world.update(xDir, yDir, delta, mousePressed, mouseScreenX, mouseScreenY,  autoMove);
+		world.update(xDir, yDir, delta, mousePressed, mouseScreenX,
+				mouseScreenY, arrowKeyPressed);
 	}
 
 	/**

@@ -34,10 +34,9 @@ public class Camera {
 		this.screenheight = screenheight;
 		followUnit(player);
 		
-		xPos = (int) unitFollow.getxPos();
-		yPos = (int) unitFollow.getyPos();
-		update();
-		
+		xPos = (int) unitFollow.getxPos() - screenwidth / 2;
+		yPos = (int) unitFollow.getyPos() - screenheight / 2;
+	
 		xPosMax = (map.getWidthInTiles() * map.getTileWidth()) - screenwidth - 1;
 		yPosMax = (map.getHeightInTiles() * map.getTileHeight()) - screenheight - 1;
 	}
@@ -62,7 +61,8 @@ public class Camera {
 	public void update() throws SlickException {
 		int xPosNew = (int) unitFollow.getxPos() - screenwidth / 2;
 		int yPosNew = (int) unitFollow.getyPos() - screenheight / 2;
-		// update camera positions
+		
+		// Update camera positions as long as it is inside the map.
 		if (xPosNew >= getMinX() && xPosNew <= getMaxX())
 			xPos = xPosNew;
 		if (yPosNew >= getMinY() && yPosNew <= getMaxY())

@@ -27,7 +27,7 @@ public class World {
 	private Camera camera;
 	/** A series of steps from the starting location to the target location. */
 	private Path path;
-	/** It is the index a path which contains x and y positions in tiles. */
+	/** It is the index of a path which contains x and y positions in tiles. */
 	private int step;
 
 	/**
@@ -87,7 +87,7 @@ public class World {
 	 *            Time passed since last frame (milliseconds).
 	 */
 	public void update(float xDir, float yDir, int delta, boolean mousePressed,
-			int mouseScreenX, int mouseScreenY, boolean autoMove)
+			int mouseScreenX, int mouseScreenY, boolean arrowKeyPressed)
 			throws SlickException {
 
 		AStarPathFinder pathFinder = new AStarPathFinder(map, getWidth()
@@ -98,7 +98,7 @@ public class World {
 		int yPosTile = (int) (player.getyPos() / getTileHeight());
 
 		// User pressed an arrow key, so no auto-play and path is reset.
-		if (autoMove == false) {
+		if (arrowKeyPressed == true) {
 			this.path = null;
 			step = 0;
 		}
@@ -111,15 +111,9 @@ public class World {
 			 * It finds path from the player's position to the position where
 			 * mouse was clicked and produces a series of steps.
 			 */
-			Path path = pathFinder.findPath(player, xPosTile, yPosTile,
+			this.path = pathFinder.findPath(player, xPosTile, yPosTile,
 					mouseTileX, mouseTileY);
-			this.path = path;
 			step = 0;
-			/* If path could not be found */
-			if (path == null) {
-				this.path = null;
-				autoMove = false;
-			}
 		}
 		// If the player is in the middle of an auto-move when path was
 		// found in a previous update.
@@ -128,15 +122,14 @@ public class World {
 			// Direction is towards the next step.
 			if (xPosTile > path.getX(step))
 				xDir--;
-			if (xPosTile < path.getX(step))
+			else if (xPosTile < path.getX(step))
 				xDir++;
 			if (yPosTile < path.getY(step))
 				yDir++;
-			if (yPosTile > path.getY(step))
+			else if (yPosTile > path.getY(step))
 				yDir--;
-
 			/*
-			 * When the player reaches the step, the player should try to reach
+			 * When the player reaches a step, the player should try to reach
 			 * the next step during next update call.
 			 */
 			if (xPosTile == path.getX(step) && yPosTile == path.getY(step))
@@ -148,8 +141,12 @@ public class World {
 				step = 0;
 			}
 		}
-		// If player gets trapped due to any error, auto-move is cancelled.
-		if (player.update(this, xDir, yDir, delta) == false) {
+		
+		// Attempt to move player		
+		boolean moved = player.update(this, xDir, yDir, delta);
+		
+		// If player gets trapped due to any bug, auto-move is cancelled.
+		if (moved == false) {
 			path = null;
 			step = 0;
 		}

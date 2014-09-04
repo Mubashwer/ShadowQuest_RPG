@@ -7,6 +7,9 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.util.pathfinding.Mover;
 
+/**
+ * Represents the main player of the game. It handles movement and rendering.
+ */
 public class Player implements Mover {
 
 	/** Starting x coordinate of the player in the map */
@@ -34,20 +37,6 @@ public class Player implements Mover {
 		this.yPos = PLAYER_START_Y;
 		playerImg = new Image(RPG.ASSETS_LOCATION + PLAYER_IMAGE_LOCATION);
 		isFacingLeft = false;
-	}
-
-	/**
-	 * It returns width of player
-	 */
-	int getWidth() {
-		return playerImg.getWidth();
-	}
-
-	/**
-	 * It returns height of player.
-	 */
-	int getHeight() {
-		return playerImg.getWidth();
 	}
 
 	/**
@@ -90,7 +79,7 @@ public class Player implements Mover {
 	 *            The 's movement in the y axis (-1, 0 or 1).
 	 * @param delta
 	 *            Time passed since last frame (milliseconds).
-	 * @return Boolean value indicating whether the player has moved or not.
+	 * @return True if player has moved.
 	 */
 	public boolean update(World world, float xDir, float yDir, int delta)
 			throws SlickException {

@@ -1,7 +1,16 @@
+/* SWEN20003 Object Oriented Software Development
+ * RPG Game Engine
+ * Author: Mubashwer Salman Khurshid (mskh, 601738)
+ */
+
 import org.newdawn.slick.tiled.TiledMap;
 import org.newdawn.slick.util.pathfinding.PathFindingContext;
 import org.newdawn.slick.util.pathfinding.TileBasedMap;
 
+/**
+ * A property-based tile map which provides context for path finding generic
+ * tools.
+ */
 public class SimpleMap implements TileBasedMap {
 
 	/** The original map */
@@ -25,6 +34,16 @@ public class SimpleMap implements TileBasedMap {
 	/**
 	 * Checks if the given location is blocked, i.e. blocks movement of the
 	 * supplied mover.
+	 * 
+	 * @param context
+	 *            The context describing the path finding at the time of this
+	 *            request.
+	 * @param xTile
+	 *            The x coordinate of the tile we're moving to.
+	 * @param yTIle
+	 *            The y coordinate of the tile we're moving to.
+	 * @return True if the location is blocked.
+	 * 
 	 */
 	@Override
 	public boolean blocked(PathFindingContext context, int xTile, int yTile) {
@@ -35,6 +54,16 @@ public class SimpleMap implements TileBasedMap {
 
 	/**
 	 * Gets the cost of moving through the given tile.
+	 * 
+	 * @param context
+	 *            The context describing the path finding at the time of this
+	 *            request.
+	 * @param xTile
+	 *            The x coordinate of the tile we're moving to.
+	 * @param yTIle
+	 *            The y coordinate of the tile we're moving to.
+	 * @return The relative cost of moving across the given tile.
+	 * 
 	 */
 	@Override
 	public float getCost(PathFindingContext context, int xTile, int yTile) {
@@ -59,6 +88,11 @@ public class SimpleMap implements TileBasedMap {
 
 	/**
 	 * Notification that the path finder visited a given tile.
+	 * 
+	 * @param xTile
+	 *            The x coordinate of the tile that was visited
+	 * @param yTIle
+	 *            The y coordinate of the tile that was visited
 	 */
 	@Override
 	public void pathFinderVisited(int xTile, int yTile) {
@@ -97,5 +131,4 @@ public class SimpleMap implements TileBasedMap {
 	public void render(int x, int y, int sx, int sy, int width, int height) {
 		map.render(x, y, sx, sy, width, height);
 	}
-
 }
