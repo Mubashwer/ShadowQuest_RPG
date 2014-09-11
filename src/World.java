@@ -32,7 +32,7 @@ public class World {
 
 	/**
 	 * Create a new World object.
-	 * */
+	 */
 	public World() throws SlickException {
 		map = new SimpleMap(new TiledMap(
 				RPG.ASSETS_LOCATION + RPG.MAP_LOCATION, RPG.ASSETS_LOCATION),

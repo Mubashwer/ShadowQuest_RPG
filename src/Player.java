@@ -16,14 +16,14 @@ public class Player implements Mover {
 	public static final float PLAYER_START_X = 756;
 	/** Starting y coordinate of the player in the map */
 	public static final float PLAYER_START_Y = 684;
-	/** Speed of player in pixels per millisecond. */
-	public static final float SPEED = 0.25F;
 	/** The location of the player image within assets directory. */
 	public static final String PLAYER_IMAGE_LOCATION = "/units/player.png";
 	/** x coordinate of player in map. */
 	private float xPos;
 	/** y coordinate of player in map. */
 	private float yPos;
+	/** Speed of player in pixels per millisecond. */
+	public static final float SPEED = 0.25F;
 	/** It is the image of the player. */
 	private Image playerImg;
 	/** It determines the whether playing is facing left or right. */
@@ -56,9 +56,9 @@ public class Player implements Mover {
 	/**
 	 * It draws the player in screen with respect to camera.
 	 * 
-	 * @param xPosCam
+	 * @param camMinX
 	 *            top-left x coordinate of camera.
-	 * @param yPosCam
+	 * @param camMinY
 	 *            top-left y coordinate of camera.
 	 */
 	public void draw(int camMinX, int camMinY) throws SlickException {

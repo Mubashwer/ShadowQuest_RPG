@@ -27,12 +27,21 @@ public class Camera {
 
 	/**
 	 * Create a new World object.
+	 * 
+	 * @param unit
+	 *            The unit this camera is to follow.
+	 * @param map
+	 *            The game map.
+	 * @param screenwidth
+	 *            The width of camera screen.
+	 * @param screenheight
+	 *            The height of camera screen.
 	 */
-	public Camera(Player player, SimpleMap map, int screenwidth,
-			int screenheight) throws SlickException {
+	public Camera(Player unit, SimpleMap map, int screenwidth, int screenheight)
+			throws SlickException {
 		this.screenwidth = screenwidth;
 		this.screenheight = screenheight;
-		followUnit(player);
+		followUnit(unit);
 
 		xPos = (int) unitFollow.getxPos() - screenwidth / 2;
 		yPos = (int) unitFollow.getyPos() - screenheight / 2;
@@ -101,6 +110,9 @@ public class Camera {
 
 	/**
 	 * Tells the camera to follow a given unit.
+	 * 
+	 * @param unit
+	 *            unit the camera is to follow.
 	 */
 	public void followUnit(Player unit) throws SlickException {
 		unitFollow = unit;

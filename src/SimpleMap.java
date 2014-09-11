@@ -40,7 +40,7 @@ public class SimpleMap implements TileBasedMap {
 	 *            request.
 	 * @param xTile
 	 *            The x coordinate of the tile we're moving to.
-	 * @param yTIle
+	 * @param yTile
 	 *            The y coordinate of the tile we're moving to.
 	 * @return True if the location is blocked.
 	 * 
@@ -91,7 +91,7 @@ public class SimpleMap implements TileBasedMap {
 	 * 
 	 * @param xTile
 	 *            The x coordinate of the tile that was visited
-	 * @param yTIle
+	 * @param yTile
 	 *            The y coordinate of the tile that was visited
 	 */
 	@Override
