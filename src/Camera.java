@@ -20,81 +20,83 @@ public class Camera {
 	/** The camera's top-left position in the world, in x and y coordinates. */
 	private int xPos;
 	private int yPos;
-	
+
 	/** The camera's farthest possible top-left position in map. */
-	private final int xPosMax;
-	private final int yPosMax;
+	private final int MaxTopLeftX;
+	private final int MaxTopLeftY;
 
 	/**
 	 * Create a new World object.
 	 */
-	public Camera(Player player, SimpleMap map, int screenwidth, int screenheight)
-			throws SlickException {
+	public Camera(Player player, SimpleMap map, int screenwidth,
+			int screenheight) throws SlickException {
 		this.screenwidth = screenwidth;
 		this.screenheight = screenheight;
 		followUnit(player);
-		
+
 		xPos = (int) unitFollow.getxPos() - screenwidth / 2;
 		yPos = (int) unitFollow.getyPos() - screenheight / 2;
-	
-		xPosMax = (map.getWidthInTiles() * map.getTileWidth()) - screenwidth - 1;
-		yPosMax = (map.getHeightInTiles() * map.getTileHeight()) - screenheight - 1;
-	}
-	
-	/**
-	 * It returns the x coordinate of camera.
-	 */
-	public int getxPos() {
-		return xPos;
+
+		MaxTopLeftX = (map.getWidthInTiles() * map.getTileWidth())
+				- screenwidth - 1;
+		MaxTopLeftY = (map.getHeightInTiles() * map.getTileHeight())
+				- screenheight - 1;
 	}
 
 	/**
-	 * It returns the y coordinate of camera.
+	 * It returns the x coordinate of the unit this camera is following.
 	 */
-	public int getyPos() {
-		return yPos;
+	public float getxPos() {
+		return unitFollow.getxPos();
 	}
-		
+
+	/**
+	 * It returns the y coordinate of the unit this camera is following.
+	 */
+	public float getyPos() {
+		return unitFollow.getyPos();
+	}
+
 	/**
 	 * Update the game camera to recentre it's viewpoint around the player
 	 */
 	public void update() throws SlickException {
 		int xPosNew = (int) unitFollow.getxPos() - screenwidth / 2;
 		int yPosNew = (int) unitFollow.getyPos() - screenheight / 2;
-		
+
 		// Update camera positions as long as it is inside the map.
-		if (xPosNew >= getMinX() && xPosNew <= getMaxX())
+		if (xPosNew >= 0 && xPosNew <= MaxTopLeftX)
 			xPos = xPosNew;
-		if (yPosNew >= getMinY() && yPosNew <= getMaxY())
+		if (yPosNew >= 0 && yPosNew <= MaxTopLeftY)
 			yPos = yPosNew;
 	}
 
 	/**
-	 * Returns the minimum top-left x coordinate of camera in map.
+	 * Returns the top-left x coordinate of camera in map.
 	 */
 	public int getMinX() {
-		return 0;
+		return xPos;
 	}
 
 	/**
-	 * Returns the maximum top-left x coordinate of camera in map.
+	 * Returns the bottom-right x coordinate of camera in map.
 	 */
 	public int getMaxX() {
-		return xPosMax;
+		return xPos + screenwidth - 1;
 	}
 
 	/**
 	 * Returns the minimum top-left y coordinate of camera in map.
 	 */
 	public int getMinY() {
-		return 0;
+		return yPos;
 	}
 
 	/**
-	 * Returns the maximum top-left y coordinate of camera in map.
+	 * Returns the bottom-right y coordinate of camera in map.
 	 */
 	public int getMaxY() {
-		return yPosMax;
+		return yPos + screenheight - 1;
 	}
 
 	/**

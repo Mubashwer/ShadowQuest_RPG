@@ -13,7 +13,7 @@ import org.newdawn.slick.util.pathfinding.TileBasedMap;
  */
 public class SimpleMap implements TileBasedMap {
 
-	/** The original map */
+	/** The game map */
 	public TiledMap map;
 	/** The property which determines if a tile is blocked or not. */
 	private String blockProperty;
@@ -60,7 +60,7 @@ public class SimpleMap implements TileBasedMap {
 	 *            request.
 	 * @param xTile
 	 *            The x coordinate of the tile we're moving to.
-	 * @param yTIle
+	 * @param yTile
 	 *            The y coordinate of the tile we're moving to.
 	 * @return The relative cost of moving across the given tile.
 	 * 
@@ -126,7 +126,7 @@ public class SimpleMap implements TileBasedMap {
 	 * @param width
 	 *            The width of the section to render (in tiles).
 	 * @param height
-	 *            The height of the section to render (in tiles).s
+	 *            The height of the section to render (in tiles).
 	 */
 	public void render(int x, int y, int sx, int sy, int width, int height) {
 		map.render(x, y, sx, sy, width, height);

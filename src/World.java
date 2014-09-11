@@ -40,7 +40,7 @@ public class World {
 		player = new Player();
 		camera = new Camera(player, map, RPG.screenwidth, RPG.screenheight);
 
-		// The screen size in tiles
+		// Get screen size in tiles (2 extra tiles for offset).
 		screenWidthTiles = (RPG.screenwidth / getTileWidth()) + 2;
 		screenHeightTiles = (RPG.screenheight / getTileHeight()) + 2;
 
@@ -79,12 +79,20 @@ public class World {
 	/**
 	 * Update the game state for a frame.
 	 * 
-	 * @param dir_x
+	 * @param xDir
 	 *            The 's movement in the x axis (-1, 0 or 1).
-	 * @param dir_y
+	 * @param yDir
 	 *            The 's movement in the y axis (-1, 0 or 1).
 	 * @param delta
 	 *            Time passed since last frame (milliseconds).
+	 * @param mousePressed
+	 *            True if mouse is pressed.
+	 * @param mouseScreenX
+	 *            X coordinate in screen where mouse is clicked.
+	 * @param mouseScreenY
+	 *            Y coordinate in screen where mouse is clicked.
+	 * @param arrowKeyPressed
+	 *            True if an arrow key is pressed.
 	 */
 	public void update(float xDir, float yDir, int delta, boolean mousePressed,
 			int mouseScreenX, int mouseScreenY, boolean arrowKeyPressed)
@@ -97,15 +105,15 @@ public class World {
 		int xPosTile = (int) (player.getxPos() / getTileWidth());
 		int yPosTile = (int) (player.getyPos() / getTileHeight());
 
-		// User pressed an arrow key, so no auto-play and path is reset.
+		// User pressed an arrow key, so disregard previous mouse click.
 		if (arrowKeyPressed == true) {
 			this.path = null;
 			step = 0;
 		}
 		// User pressed mouse button only, an attempt is made to find path.
 		else if (mousePressed == true) {
-			int mouseTileX = (int) ((mouseScreenX + camera.getxPos()) / getTileWidth());
-			int mouseTileY = (int) ((mouseScreenY + camera.getyPos()) / getTileHeight());
+			int mouseTileX = (int) ((mouseScreenX + camera.getMinX()) / getTileWidth());
+			int mouseTileY = (int) ((mouseScreenY + camera.getMinY()) / getTileHeight());
 
 			/*
 			 * It finds path from the player's position to the position where
@@ -115,8 +123,10 @@ public class World {
 					mouseTileX, mouseTileY);
 			step = 0;
 		}
-		// If the player is in the middle of an auto-move when path was
-		// found in a previous update.
+		/*
+		 * If the player is in the middle of an auto-move when path was found in
+		 * a previous update.
+		 */
 		else if (path != null) {
 
 			// Direction is towards the next step.
@@ -141,10 +151,10 @@ public class World {
 				step = 0;
 			}
 		}
-		
-		// Attempt to move player		
+
+		// Attempt to move player
 		boolean moved = player.update(this, xDir, yDir, delta);
-		
+
 		// If player gets trapped due to any bug, auto-move is cancelled.
 		if (moved == false) {
 			path = null;
@@ -161,16 +171,16 @@ public class World {
 	 */
 	public void render(Graphics g) throws SlickException {
 		// Camera position in tiles
-		int xTile = camera.getxPos() / getTileWidth();
-		int yTile = camera.getyPos() / getTileHeight();
+		int xTile = camera.getMinX() / getTileWidth();
+		int yTile = camera.getMinY() / getTileHeight();
 
 		// Pixels offset after camera is positioned in tiles
-		int xOffset = camera.getxPos() % getTileWidth();
-		int yOffset = camera.getyPos() % getTileHeight();
+		int xOffset = camera.getMinX() % getTileWidth();
+		int yOffset = camera.getMinY() % getTileHeight();
 
 		map.render(-xOffset, -yOffset, xTile, yTile, screenWidthTiles,
 				screenHeightTiles);
-		player.draw(camera.getxPos(), camera.getyPos());
+		player.draw(camera.getMinX(), camera.getMinY());
 	}
 
 	/**

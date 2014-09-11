@@ -15,6 +15,7 @@ import org.newdawn.slick.SlickException;
  * and rendering.
  */
 public class RPG extends BasicGame {
+
 	private World world;
 
 	/** The location of assets directory. */

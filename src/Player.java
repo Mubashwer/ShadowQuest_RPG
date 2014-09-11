@@ -57,15 +57,16 @@ public class Player implements Mover {
 	 * It draws the player in screen with respect to camera.
 	 * 
 	 * @param xPosCam
-	 *            x coordinate of camera to draw player
+	 *            top-left x coordinate of camera.
 	 * @param yPosCam
-	 *            y coordinate of camera to draw player
+	 *            top-left y coordinate of camera.
 	 */
-	public void draw(int xPosCam, int yPosCam) throws SlickException {
+	public void draw(int camMinX, int camMinY) throws SlickException {
 		Image img = playerImg;
 		if (isFacingLeft == true)
 			img = playerImg.getFlippedCopy(true, false);
-		img.drawCentered((int) xPos - xPosCam, (int) yPos - yPosCam);
+
+		img.drawCentered((int) xPos - camMinX, (int) yPos - camMinY);
 	}
 
 	/**
@@ -110,7 +111,7 @@ public class Player implements Mover {
 		// If player can move to new coordinate and he can move horizontally
 		// and/or vertically...
 		else if (!world.blocked(xPosNew, yPos) || !world.blocked(xPos, yPosNew)) {
-			// Then he can move to new coordinate.
+			// Then he moves to new coordinate.
 			xPos = xPosNew;
 			yPos = yPosNew;
 		} else
