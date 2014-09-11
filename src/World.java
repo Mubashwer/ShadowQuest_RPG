@@ -36,7 +36,7 @@ public class World {
 	public World() throws SlickException {
 		map = new SimpleMap(new TiledMap(
 				RPG.ASSETS_LOCATION + RPG.MAP_LOCATION, RPG.ASSETS_LOCATION),
-				"block");
+				RPG.MAP_BLOCK_PROPERTY);
 		player = new Player();
 		camera = new Camera(player, map, RPG.screenwidth, RPG.screenheight);
 

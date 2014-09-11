@@ -16,7 +16,7 @@ public class SimpleMap implements TileBasedMap {
 	/** The game map */
 	public TiledMap map;
 	/** The property which determines if a tile is blocked or not. */
-	private String blockProperty;
+	private final String blockProperty;
 
 	/**
 	 * Creates a new SimpleMap object.

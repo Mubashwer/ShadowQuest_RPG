@@ -22,6 +22,8 @@ public class RPG extends BasicGame {
 	public static final String ASSETS_LOCATION = "assets";
 	/** The location of the map file within assets directory. */
 	public static final String MAP_LOCATION = "/map.tmx";
+	/** The property which determines if a tile in map is blocked or not. */
+	public static final String MAP_BLOCK_PROPERTY = "block";
 	/** Screen width, in pixels. */
 	public static final int screenwidth = 800;
 	/** Screen height, in pixels. */
