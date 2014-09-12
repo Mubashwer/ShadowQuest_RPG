@@ -25,9 +25,9 @@ public class RPG extends BasicGame {
 	/** The property which determines if a tile in map is blocked or not. */
 	public static final String MAP_BLOCK_PROPERTY = "block";
 	/** Screen width, in pixels. */
-	public static final int screenwidth = 800;
+	public static final int SCREEN_WIDTH = 800;
 	/** Screen height, in pixels. */
-	public static final int screenheight = 600;
+	public static final int SCREEN_HEIGHT = 600;
 
 	/**
 	 * Create a new RPG object.
@@ -109,7 +109,7 @@ public class RPG extends BasicGame {
 		AppGameContainer app = new AppGameContainer(new RPG());
 		// setShowFPS(true), to show frames-per-second.
 		app.setShowFPS(false);
-		app.setDisplayMode(screenwidth, screenheight, false);
+		app.setDisplayMode(SCREEN_WIDTH, SCREEN_HEIGHT, false);
 		app.start();
 	}
 }

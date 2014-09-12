@@ -38,11 +38,11 @@ public class World {
 				RPG.ASSETS_LOCATION + RPG.MAP_LOCATION, RPG.ASSETS_LOCATION),
 				RPG.MAP_BLOCK_PROPERTY);
 		player = new Player();
-		camera = new Camera(player, map, RPG.screenwidth, RPG.screenheight);
+		camera = new Camera(player, map, RPG.SCREEN_WIDTH, RPG.SCREEN_HEIGHT);
 
 		// Get screen size in tiles (2 extra tiles for offset).
-		screenWidthTiles = (RPG.screenwidth / getTileWidth()) + 2;
-		screenHeightTiles = (RPG.screenheight / getTileHeight()) + 2;
+		screenWidthTiles = (camera.screenwidth / getTileWidth()) + 2;
+		screenHeightTiles = (camera.screenheight / getTileHeight()) + 2;
 
 		path = null;
 		step = 0;
