@@ -6,6 +6,7 @@
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.BasicGame;
+import org.newdawn.slick.Font;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Input;
 import org.newdawn.slick.SlickException;
@@ -19,21 +20,32 @@ public class RPG extends BasicGame {
 	private World world;
 
 	/** The location of assets directory. */
-	public static final String ASSETS_LOCATION = "assets";
+	public static final String ASSETS_LOCATION = "assets/";
 	/** The location of the map file within assets directory. */
-	public static final String MAP_LOCATION = "/map.tmx";
+	public static final String MAP_LOCATION = ASSETS_LOCATION + "map.tmx";
+	public static final String FONT_LOCATION = ASSETS_LOCATION
+			+ "DejaVuSans-Bold.ttf";
+	public static final String THEME_LOCATION = ASSETS_LOCATION
+			+ "bg_theme.ogg";
+	public static final int FONT_SIZE = 15;
 	/** The property which determines if a tile in map is blocked or not. */
 	public static final String MAP_BLOCK_PROPERTY = "block";
+	/** THe height of render player status panel. */
+	public static final int PANEL_HEIGHT = 70;
+	public static final String PANEL_IMAGE_LOCATION = ASSETS_LOCATION
+			+ "panel.png";
 	/** Screen width, in pixels. */
-	public static final int SCREEN_WIDTH = 800;
+	public static final int SCREEN_WIDTH = 1280;
 	/** Screen height, in pixels. */
-	public static final int SCREEN_HEIGHT = 600;
+	public static final int SCREEN_HEIGHT = 720;
+	public static final float VOLUME = 0.03F;
+	private static Font font;
 
 	/**
 	 * Create a new RPG object.
 	 */
 	public RPG() {
-		super("RPG Game Engine");
+		super("Shadow Quest");
 	}
 
 	/**
@@ -44,6 +56,9 @@ public class RPG extends BasicGame {
 	 */
 	@Override
 	public void init(GameContainer gc) throws SlickException {
+		gc.setMusicVolume(VOLUME);
+		gc.setSoundVolume(VOLUME * 6);
+		font = FontLoader.loadFont(RPG.FONT_LOCATION, RPG.FONT_SIZE);
 		world = new World();
 	}
 
@@ -63,9 +78,17 @@ public class RPG extends BasicGame {
 		float xDir = 0;
 		float yDir = 0;
 		boolean mousePressed = false;
+		boolean interactPressed = false;
+		boolean attackPressed = false;
 
-		if (input.isMousePressed(Input.MOUSE_LEFT_BUTTON))
+		if (input.isMousePressed(Input.MOUSE_RIGHT_BUTTON))
 			mousePressed = true;
+		if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)
+				|| input.isKeyDown(Input.KEY_T))
+			interactPressed = true;
+		if (input.isMouseButtonDown(Input.MOUSE_LEFT_BUTTON)
+				|| input.isKeyDown(Input.KEY_A))
+			attackPressed = true;
 
 		int mouseScreenX = input.getMouseX();
 		int mouseScreenY = input.getMouseY();
@@ -83,7 +106,7 @@ public class RPG extends BasicGame {
 
 		// Let World.update decide what to do with this data.
 		world.update(xDir, yDir, delta, mousePressed, mouseScreenX,
-				mouseScreenY, arrowKeyPressed);
+				mouseScreenY, arrowKeyPressed, interactPressed, attackPressed);
 	}
 
 	/**
@@ -96,7 +119,12 @@ public class RPG extends BasicGame {
 	 */
 	public void render(GameContainer gc, Graphics g) throws SlickException {
 		// Let World.render handle the rendering.
+		g.setFont(font);
 		world.render(g);
+	}
+
+	public static int getFontWidth(String text) {
+		return font.getWidth(text);
 	}
 
 	/**
