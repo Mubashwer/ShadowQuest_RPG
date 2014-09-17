@@ -5,6 +5,9 @@ import org.newdawn.slick.Sound;
 /**
  * Aggressive Monster class. It is designed to be inherited by specific
  * monsters.
+ * 
+ * @author Mubashwer Salman Khurshid (mskh, 601738)
+ *
  */
 public abstract class Aggressive extends Monster {
 
@@ -57,7 +60,6 @@ public abstract class Aggressive extends Monster {
 			float yPosNew = yPos + (distY / distTotal) * pixels;
 
 			update(world, delta, xDir, yDir, xPosNew, yPosNew);
-
 		}
 		/*
 		 * If player is within 50 pixels and cooldown time has passed then the

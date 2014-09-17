@@ -5,6 +5,9 @@ import org.newdawn.slick.Sound;
 /**
  * Monster class. It is designed to be inherited by specific
  * type of monsters such as active or passive.
+ * 
+ * @author Mubashwer Salman Khurshid (mskh, 601738)
+ *
  */
 public abstract class Monster extends Unit{
 	

@@ -4,6 +4,9 @@ import org.newdawn.slick.SlickException;
 /**
  * Passive Monster class. It is designed to be inherited by specific monsters.
  * Passive Monsters do not attack.
+ * 
+ * @author Mubashwer Salman Khurshid (mskh, 601738)
+ *
  */
 public abstract class Passive extends Monster {
 

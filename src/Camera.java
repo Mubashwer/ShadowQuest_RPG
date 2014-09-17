@@ -22,8 +22,8 @@ public class Camera {
 	private int yPos;
 
 	/** The camera's farthest possible top-left position in map. */
-	private final int MaxTopLeftX;
-	private final int MaxTopLeftY;
+	public final int MaxTopLeftX;
+	public final int MaxTopLeftY;
 
 	/**
 	 * Create a new World object.

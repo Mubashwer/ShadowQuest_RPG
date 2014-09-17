@@ -380,6 +380,11 @@ public class World {
 			unit.render(g, camMinX, camMinY);
 
 		player.render(g, camMinX, camMinY);
+		Image rain = new Image(RPG.ASSETS_LOCATION + "rain.png");
+		rain.setAlpha(0.1F);
+		rain.draw(Unit.getRandom(-camera.screenwidth/2, camera.screenwidth/2), 0);
+		rain.draw(Unit.getRandom(0, camera.screenwidth), 0);
+		//rain.draw(Unit.getRandom(camMinX, camera.getMaxX()), Unit.getRandom(camMinY, camera.getMaxY()));
 		renderPanel(g);
 	}
 
