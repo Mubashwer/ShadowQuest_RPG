@@ -4,7 +4,7 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 
 /**
- * Class for environment in game. It controls rain and day-night alteration.
+ * Class for environment in game. It controls rain and day-night alterations.
  * 
  * @author Mubashwer Salman Khurshid(mskh, 601738)
  *
