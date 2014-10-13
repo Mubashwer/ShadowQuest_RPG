@@ -1,5 +1,4 @@
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 
 /**
  * Passive Monster class. It is designed to be inherited by specific monsters.
@@ -30,7 +29,6 @@ public abstract class Passive extends Monster {
 	 *            Y-coordinate of monster.
 	 * @param image
 	 *            Sprite of monster.
-	 * @throws SlickException
 	 */
 	public Passive(float xPos, float yPos, Image image) {
 		super(xPos, yPos, image);

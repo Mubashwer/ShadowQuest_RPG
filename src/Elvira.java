@@ -27,8 +27,6 @@ public class Elvira extends Villager {
 	 *            X-coordinate of unit.
 	 * @param yPos
 	 *            Y-coordinate of unit.
-	 * @param image
-	 *            Sprite of unit.
 	 */
 	public Elvira(float xPos, float yPos) throws SlickException {
 		super(xPos, yPos, new Image(IMAGE_LOCATION));

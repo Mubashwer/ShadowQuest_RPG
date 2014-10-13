@@ -29,8 +29,6 @@ public class Garth extends Villager {
 	 *            X-coordinate of unit.
 	 * @param yPos
 	 *            Y-coordinate of unit.
-	 * @param image
-	 *            Sprite of unit.
 	 */
 	public Garth(float xPos, float yPos) throws SlickException {
 		super(xPos, yPos, new Image(IMAGE_LOCATION));

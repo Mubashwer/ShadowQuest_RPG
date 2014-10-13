@@ -1,5 +1,4 @@
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
 /**
@@ -27,7 +26,6 @@ public abstract class Monster extends Unit{
 	 *            Y-coordinate of monster.
 	 * @param image
 	 *            Sprite of monster.
-	 * @throws SlickException
 	 */
 	public Monster(float xPos, float yPos, Image image) {
 		super(xPos, yPos, image);

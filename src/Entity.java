@@ -1,6 +1,5 @@
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
-import org.newdawn.slick.SlickException;
 
 /**
  * Class for an entity in game.
@@ -30,7 +29,6 @@ public abstract class Entity {
 	 *            Y-coordinate of monster.
 	 * @param image
 	 *            Sprite of monster.
-	 * @throws SlickException
 	 */
 	public Entity(float xPos, float yPos, Image image) {
 		this.xPos = xPos;

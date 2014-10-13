@@ -174,6 +174,7 @@ public abstract class Unit extends Entity {
 	 * It changes the cooldown rate of unit.
 	 * 
 	 * @param cooldown
+	 *            Time when unit cannot attack.
 	 */
 	public void setCooldown(int cooldown) {
 		this.cooldown = cooldown;
@@ -230,6 +231,10 @@ public abstract class Unit extends Entity {
 	 *            The 's movement in the y axis (-1, 0 or 1).
 	 * @param delta
 	 *            Time passed since last frame (milliseconds).
+	 * @param xPosNew
+	 *            New x-coordinate of unit in map.
+	 * @param yPosNew
+	 *            New y-coordinate of unit in map.
 	 * @return True if player has moved.
 	 */
 	public boolean update(World world, int delta, float xDir, float yDir,
