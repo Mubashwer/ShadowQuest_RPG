@@ -1,8 +1,3 @@
-/* SWEN20003 Object Oriented Software Development
- * RPG Game Engine
- * Author: Mubashwer Salman Khurshid (mskh, 601738)
- */
-
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;
 import org.newdawn.slick.BasicGame;
@@ -14,14 +9,13 @@ import org.newdawn.slick.SlickException;
 /**
  * Main class for the Role-Playing Game engine. Handles initialisation, input
  * and rendering.
+ * 
+ * @author Mubashwer Salman Khurshid (mskh, 601738)
  */
 public class RPG extends BasicGame {
 
 	private World world;
-
-	/** The location of assets directory. */
 	public static final String ASSETS_LOCATION = "assets/";
-	/** The location of the map file within assets directory. */
 	public static final String MAP_LOCATION = ASSETS_LOCATION + "map.tmx";
 	public static final String FONT_LOCATION = ASSETS_LOCATION
 			+ "DejaVuSans-Bold.ttf";
@@ -38,7 +32,9 @@ public class RPG extends BasicGame {
 	public static final int SCREEN_WIDTH = 1280;
 	/** Screen height, in pixels. */
 	public static final int SCREEN_HEIGHT = 720;
+	/** Background theme volume */
 	public static final float VOLUME = 0.03F;
+	/** Game font */
 	private static Font font;
 
 	/**
@@ -123,7 +119,14 @@ public class RPG extends BasicGame {
 		world.render(g);
 	}
 
-	public static int getFontWidth(String text) {
+	/**
+	 * It gets the width of a text in pixels.
+	 * 
+	 * @param text
+	 *            The string.
+	 * @return width of the string
+	 */
+	public static int getTextWidth(String text) {
 		return font.getWidth(text);
 	}
 

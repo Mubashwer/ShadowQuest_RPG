@@ -1,7 +1,7 @@
-Project1
+Project2
 ========
 
-SWEN20003 Project 1: A simple RPG Game
+SWEN20003 Project 2: Shadow QUest
 
 Name: Mubashwer Salman Khurshid
 Username: mskh

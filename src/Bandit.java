@@ -2,6 +2,13 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
+
+/**
+ * Class for Bandit.
+ * 
+ * @author Mubashwer Salman Khurshid(mskh, 601738)
+ *
+ */
 public class Bandit extends Aggressive {
 	public static final String IMAGE_LOCATION = UNITS_LOCATION + "bandit.png";
 	public static final String NAME = "Bandit";

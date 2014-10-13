@@ -2,6 +2,12 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
+/**
+ * Class for Giant Bat.
+ * 
+ * @author Mubashwer Salman Khurshid(mskh, 601738)
+ *
+ */
 public class GiantBat extends Passive {
 
 	public static final String IMAGE_LOCATION = UNITS_LOCATION + "dreadbat.png";

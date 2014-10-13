@@ -34,7 +34,6 @@ public abstract class Villager extends Unit {
 	public Villager(float xPos, float yPos, Image image) {
 		super(xPos, yPos, image);
 		dialogueTimer = 0;
-		dialogue = "...";
 		interacted = false;
 	}
 
@@ -107,7 +106,7 @@ public abstract class Villager extends Unit {
 		int barWidth, barHeight; // Size of rectangle to draw
 
 		barHeight = 20;
-		barWidth = RPG.getFontWidth(dialogue) + 6;
+		barWidth = RPG.getTextWidth(dialogue) + 6;
 		barX = (int) xPos - (barWidth / 2) - camMinX;
 		barY = (int) yPos - (image.getHeight() / 2) - barHeight - 20 - camMinY;
 

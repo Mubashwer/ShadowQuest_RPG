@@ -1,8 +1,3 @@
-/* SWEN20003 Object Oriented Software Development
- * RPG Game Engine
- * Author: Mubashwer Salman Khurshid (mskh, 601738)
- */
-
 import org.newdawn.slick.tiled.TiledMap;
 import org.newdawn.slick.util.pathfinding.PathFindingContext;
 import org.newdawn.slick.util.pathfinding.TileBasedMap;
@@ -10,6 +5,8 @@ import org.newdawn.slick.util.pathfinding.TileBasedMap;
 /**
  * A property-based tile map which provides context for path finding generic
  * tools.
+ * 
+ * @author Mubashwer Salman Khurshid(mskh, 601738)
  */
 public class SimpleMap implements TileBasedMap {
 
@@ -29,6 +26,15 @@ public class SimpleMap implements TileBasedMap {
 	public SimpleMap(TiledMap map, String blockProperty) {
 		this.map = map;
 		this.blockProperty = blockProperty;
+	}
+
+	/**
+	 * It returns the internal tiled map.
+	 * 
+	 * @return internal map.
+	 */
+	public TiledMap getMap() {
+		return map;
 	}
 
 	/**

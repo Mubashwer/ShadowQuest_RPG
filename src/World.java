@@ -1,13 +1,6 @@
-/* SWEN20003 Object Oriented Software Development
- * RPG Game Engine
- * Author: Mubashwer Salman Khurshid (mskh, 601738)
- */
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-
 import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
@@ -20,15 +13,17 @@ import org.newdawn.slick.util.pathfinding.Path;
 /**
  * Represents the entire game world. (Designed to be instantiated just once for
  * the whole game).
+ * 
+ * @author Mubashwer Salman Khurshid (mskh, 601738)
  */
 public class World {
 
 	/** The game map */
 	private SimpleMap map;
 	/** Screen width in tiles */
-	private final int screenWidthTiles;
+	public final int screenWidthTiles;
 	/** Screen height in tiles */
-	private final int screenHeightTiles;
+	public final int screenHeightTiles;
 	/** The main unit of the game */
 	private Player player;
 	/** The camera which follows the player */
@@ -37,10 +32,15 @@ public class World {
 	private Path path;
 	/** It is the index of a path which contains x and y positions in tiles. */
 	private int step;
+	/** It is the image of the player status and inventory panel. */
 	private Image panel;
-
+	/** It handles weather and day-night alteration. */
+	private Environment environment;
+	/** All NPC units in the world. */
 	List<Unit> units;
+	/** All items in the world. */
 	List<Item> items;
+	/** Player inventory. */
 	List<Item> inventory;
 
 	/**
@@ -55,20 +55,23 @@ public class World {
 		inventory = new ArrayList<Item>();
 
 		player = new Player(inventory);
-		camera = new Camera(player, map, RPG.SCREEN_WIDTH, RPG.SCREEN_HEIGHT
-				- RPG.PANEL_HEIGHT);
+		camera = new Camera(player, map.getMap(), RPG.SCREEN_WIDTH,
+				RPG.SCREEN_HEIGHT - RPG.PANEL_HEIGHT);
 		panel = new Image(RPG.PANEL_IMAGE_LOCATION);
+		environment = new Environment();
 
-		/* Add items to the world */
-		items.add(new Amulet(700, 500));// 965, 3563
-		items.add(new Sword(780, 500)); // 4791, 1253
-		items.add(new Tome(800, 400));
-		items.add(new Elixir(850, 550)); // 1976, 402
+		// Add items.
+		items.add(new Amulet(965, 3563));
+		items.add(new Sword(4791, 1253)); 
+		items.add(new Tome(546, 6707));
+		items.add(new Elixir(1976, 402)); 
 
+		// Add villagers
 		units.add(new Prince(467, 679));
 		units.add(new Elvira(738, 549));
 		units.add(new Garth(756, 870));
 
+		// Add monsters.
 		units.add(new GiantBat(1431, 864));
 		units.add(new GiantBat(1154, 1321));
 		units.add(new GiantBat(807, 2315));
@@ -99,7 +102,7 @@ public class World {
 		units.add(new GiantBat(6388, 1994));
 		units.add(new GiantBat(6410, 1584));
 		units.add(new GiantBat(5314, 274));
-		
+
 		units.add(new Zombie(681, 3201));
 		units.add(new Zombie(691, 4360));
 		units.add(new Zombie(2166, 2650));
@@ -138,7 +141,7 @@ public class World {
 		units.add(new Zombie(2799, 1269));
 		units.add(new Zombie(2768, 739));
 		units.add(new Zombie(2099, 956));
-		
+
 		units.add(new Bandit(1889, 2581));
 		units.add(new Bandit(4502, 6283));
 		units.add(new Bandit(5248, 6581));
@@ -173,7 +176,7 @@ public class World {
 		units.add(new Bandit(1979, 394));
 		units.add(new Bandit(2045, 693));
 		units.add(new Bandit(2069, 1028));
-		
+
 		units.add(new Skeleton(1255, 2924));
 		units.add(new Skeleton(2545, 4708));
 		units.add(new Skeleton(4189, 6585));
@@ -201,11 +204,11 @@ public class World {
 
 		units.add(new Draelic(2069, 510));
 
-
 		// Get screen size in tiles (2 extra tiles for offset).
 		screenWidthTiles = (camera.screenwidth / getTileWidth()) + 2;
 		screenHeightTiles = (camera.screenheight / getTileHeight()) + 2;
 
+		// Play background theme
 		Music theme = new Music(RPG.THEME_LOCATION);
 		theme.loop();
 
@@ -215,6 +218,8 @@ public class World {
 
 	/**
 	 * It returns width of map in number of tiles.
+	 * 
+	 * @return width in tiles
 	 */
 	public int getWidth() {
 		return map.getWidthInTiles();
@@ -222,6 +227,8 @@ public class World {
 
 	/**
 	 * It returns height of map in number of tiles.
+	 * 
+	 * @return height in tiles
 	 */
 	public int getHeight() {
 		return map.getHeightInTiles();
@@ -229,6 +236,8 @@ public class World {
 
 	/**
 	 * It returns width of a tile in map.
+	 * 
+	 * @return tile width
 	 */
 	public int getTileWidth() {
 		return map.getTileWidth();
@@ -236,6 +245,8 @@ public class World {
 
 	/**
 	 * It returns height of a tile in map.
+	 * 
+	 * @return tile height
 	 */
 	public int getTileHeight() {
 		return map.getTileHeight();
@@ -258,23 +269,28 @@ public class World {
 	 *            Y coordinate in screen where mouse is clicked.
 	 * @param arrowKeyPressed
 	 *            True if an arrow key is pressed.
+	 * @param interactPressed
+	 *            True if interact button is pressed.
+	 * @param attackPressed
+	 *            True if attack button is pressed.
 	 */
 	public void update(float xDir, float yDir, int delta, boolean mousePressed,
-			int mouseScreenX, int mouseScreenY, boolean arrowKeyPressed, boolean interactPressed, boolean attackPressed )
+			int mouseScreenX, int mouseScreenY, boolean arrowKeyPressed,
+			boolean interactPressed, boolean attackPressed)
 			throws SlickException {
-		
-		if(player.isDeceased() == true) {
+
+		if (player.isDeceased() == true) {
 			player.respawn();
 			this.path = null;
 			step = 0;
 		}
 		AStarPathFinder pathFinder = new AStarPathFinder(map, getWidth()
 				* getHeight(), false);
-		
+
 		// Player position in tiles.
 		int xPosTile = (int) (player.getxPos() / getTileWidth());
 		int yPosTile = (int) (player.getyPos() / getTileHeight());
-		
+
 		// User pressed an arrow key, so disregard previous mouse click.
 		if (arrowKeyPressed == true) {
 			this.path = null;
@@ -336,8 +352,7 @@ public class World {
 			if (npc.isDeceased() == true)
 				unitsIt.remove();
 		}
-		
-		
+
 		// Attempt to move player
 		boolean moved = player.move(this, delta, xDir, yDir, units, items,
 				interactPressed, attackPressed);
@@ -348,8 +363,7 @@ public class World {
 			step = 0;
 		}
 		camera.update();
-
-
+		environment.update(delta);
 
 	}
 
@@ -380,11 +394,7 @@ public class World {
 			unit.render(g, camMinX, camMinY);
 
 		player.render(g, camMinX, camMinY);
-		Image rain = new Image(RPG.ASSETS_LOCATION + "rain.png");
-		rain.setAlpha(0.1F);
-		rain.draw(Unit.getRandom(-camera.screenwidth/2, camera.screenwidth/2), 0);
-		rain.draw(Unit.getRandom(0, camera.screenwidth), 0);
-		//rain.draw(Unit.getRandom(camMinX, camera.getMaxX()), Unit.getRandom(camMinY, camera.getMaxY()));
+		environment.render(g);
 		renderPanel(g);
 	}
 

@@ -2,6 +2,12 @@ import org.newdawn.slick.Image;
 import org.newdawn.slick.SlickException;
 import org.newdawn.slick.Sound;
 
+/**
+ * Class for Skeleton.
+ * 
+ * @author Mubashwer Salman Khurshid(mskh, 601738)
+ *
+ */
 public class Skeleton extends Aggressive {
 	public static final String IMAGE_LOCATION = UNITS_LOCATION + "skeleton.png";
 	public static final String NAME = "Skeleton";

@@ -1,29 +1,27 @@
-/* SWEN20003 Object Oriented Software Development
- * RPG Game Engine
- * Author: Mubashwer Salman Khurshid (mskh, 601738)
- */
-
 import org.newdawn.slick.SlickException;
+import org.newdawn.slick.tiled.TiledMap;
 
 /**
  * Represents the camera that controls our viewpoint.
+ * 
+ * @author Mubashwer Salman Khurshid (mskh, 601738)
  */
 public class Camera {
 
 	/** The unit this camera is following */
-	private Player unitFollow;
+	private Unit unitFollow;
 	/** Screen width, in pixels. */
 	public final int screenwidth;
 	/** Screen height, in pixels. */
 	public final int screenheight;
 
-	/** The camera's top-left position in the world, in x and y coordinates. */
+	/* The camera's top-left position in the world, in x and y coordinates. */
 	private int xPos;
 	private int yPos;
 
-	/** The camera's farthest possible top-left position in map. */
-	public final int MaxTopLeftX;
-	public final int MaxTopLeftY;
+	/* The camera's farthest possible top-left position in map. */
+	public final int maxTopLeftX;
+	public final int maxTopLeftY;
 
 	/**
 	 * Create a new World object.
@@ -37,7 +35,7 @@ public class Camera {
 	 * @param screenheight
 	 *            The height of camera screen.
 	 */
-	public Camera(Player unit, SimpleMap map, int screenwidth, int screenheight)
+	public Camera(Unit unit, TiledMap map, int screenwidth, int screenheight)
 			throws SlickException {
 		this.screenwidth = screenwidth;
 		this.screenheight = screenheight;
@@ -45,15 +43,15 @@ public class Camera {
 
 		xPos = (int) unitFollow.getxPos() - screenwidth / 2;
 		yPos = (int) unitFollow.getyPos() - screenheight / 2;
-
-		MaxTopLeftX = (map.getWidthInTiles() * map.getTileWidth())
-				- screenwidth - 1;
-		MaxTopLeftY = (map.getHeightInTiles() * map.getTileHeight())
-				- screenheight - 1;
+		maxTopLeftX = (map.getWidth() * map.getTileWidth()) - screenwidth - 1;
+		maxTopLeftY = (map.getHeight() * map.getTileHeight()) - screenheight
+				- 1;
 	}
 
 	/**
 	 * It returns the x coordinate of the unit this camera is following.
+	 * 
+	 * @return player xPos
 	 */
 	public float getxPos() {
 		return unitFollow.getxPos();
@@ -61,6 +59,8 @@ public class Camera {
 
 	/**
 	 * It returns the y coordinate of the unit this camera is following.
+	 * 
+	 * @return player yPos
 	 */
 	public float getyPos() {
 		return unitFollow.getyPos();
@@ -74,14 +74,16 @@ public class Camera {
 		int yPosNew = (int) unitFollow.getyPos() - screenheight / 2;
 
 		// Update camera positions as long as it is inside the map.
-		if (xPosNew >= 0 && xPosNew <= MaxTopLeftX)
+		if (xPosNew >= 0 && xPosNew <= maxTopLeftX)
 			xPos = xPosNew;
-		if (yPosNew >= 0 && yPosNew <= MaxTopLeftY)
+		if (yPosNew >= 0 && yPosNew <= maxTopLeftY)
 			yPos = yPosNew;
 	}
 
 	/**
 	 * Returns the top-left x coordinate of camera in map.
+	 * 
+	 * @return top-left xPos of camera
 	 */
 	public int getMinX() {
 		return xPos;
@@ -89,6 +91,8 @@ public class Camera {
 
 	/**
 	 * Returns the bottom-right x coordinate of camera in map.
+	 * 
+	 * @return bottom-right xPos of camera
 	 */
 	public int getMaxX() {
 		return xPos + screenwidth - 1;
@@ -96,6 +100,8 @@ public class Camera {
 
 	/**
 	 * Returns the minimum top-left y coordinate of camera in map.
+	 * 
+	 * @return top-left yPos of camera
 	 */
 	public int getMinY() {
 		return yPos;
@@ -103,6 +109,8 @@ public class Camera {
 
 	/**
 	 * Returns the bottom-right y coordinate of camera in map.
+	 * 
+	 * @return bottom-right yPos of camera
 	 */
 	public int getMaxY() {
 		return yPos + screenheight - 1;
@@ -114,7 +122,7 @@ public class Camera {
 	 * @param unit
 	 *            unit the camera is to follow.
 	 */
-	public void followUnit(Player unit) throws SlickException {
+	public void followUnit(Unit unit) throws SlickException {
 		unitFollow = unit;
 	}
 }

@@ -4,6 +4,13 @@ import org.newdawn.slick.Color;
 import org.newdawn.slick.Graphics;
 import org.newdawn.slick.Image;
 
+/**
+ * The class for the characters in the game. It handles damage, stats, death
+ * etc.
+ * 
+ * @author Mubashwer Salman Khurshid (mskh, 601738)
+ *
+ */
 public abstract class Unit extends Entity {
 	public static final String UNITS_LOCATION = RPG.ASSETS_LOCATION + "units/";
 	/** Health of unit. */
@@ -22,117 +29,194 @@ public abstract class Unit extends Entity {
 	protected float speed;
 	/** It determines whether the player is alive or not. */
 	protected boolean deceased;
-	
 
-
+	/**
+	 * Create a new Unit object.
+	 * 
+	 * @param xPos
+	 *            X-coordinate of unit in map.
+	 * @param yPos
+	 *            Y-coordinate of unit in map.
+	 * @param image
+	 *            Sprite of unit.
+	 */
 	public Unit(float xPos, float yPos, Image image) {
 		super(xPos, yPos, image);
 		deceased = false;
 		isFacingLeft = false;
 		cooldownTimer = 0;
 	}
-	
+
+	/**
+	 * Tries to move and/or attacks main player.
+	 * 
+	 * @param world
+	 *            The game world.
+	 * @param delta
+	 *            Milliseconds per frame.
+	 * @param player
+	 *            The main player.
+	 */
 	public void move(World world, int delta, Player player) {
+		// Designed to be overridden by movable units.
 	}
 
+	/**
+	 * It handles how and when to interact with main player.
+	 * 
+	 * @param Inventory
+	 *            The player's inventory.
+	 * @param delta
+	 *            Millisecond per frame.
+	 * @param player
+	 *            The main player.
+	 * @param interactPressed
+	 *            Flag for interaction.
+	 */
+	public void tryToInteract(List<Item> Inventory, int delta, Player player,
+			boolean interactPressed) {
+		// Designed to be overridden by Villager units.
+	}
+
+	/**
+	 * It reduces hp by given value.
+	 * 
+	 * @param damage
+	 *            The reduction in hp.
+	 */
+	public void getsDamaged(int damage) {
+		// Designed to be overriden by monster units.
+	};
+
+	/**
+	 * It gets the maximum damage the unit can inflict on other units.
+	 * 
+	 * @return maxDamage
+	 */
+	public int getMaxDamage() {
+		return maxDamage;
+	}
+
+	/**
+	 * It changes the maximum damage of unit.
+	 * 
+	 * @param maxDamage
+	 *            maximum damage stat of unit.
+	 */
 	public void setMaxDamage(int maxDamage) {
 		this.maxDamage = maxDamage;
 	}
 
-	public void setCooldown(int cooldown) {
-		this.cooldown = cooldown;
-	}
-
+	/**
+	 * It checks whether unit is dead or alive.
+	 * 
+	 * @return True if unit is dead.
+	 */
 	public boolean isDeceased() {
 		return deceased;
 	}
-	
+
+	/**
+	 * Kills unit.
+	 */
 	public void die() {
 		deceased = true;
 	}
 
-	public String getName() {
-		return name;
-	}
-
+	/**
+	 * It gets the hp of unit.
+	 * 
+	 * @return hp.
+	 */
 	public int getHp() {
 		return hp;
 	}
-	
+
+	/**
+	 * It changes hp of unit.
+	 * 
+	 * @param hp
+	 *            life of unit.
+	 */
 	public void setHp(int hp) {
 		this.hp = hp;
 	}
 
+	/**
+	 * It gets the maximum hp of unit.
+	 * 
+	 * @return maxHp.
+	 */
 	public int getMaxHp() {
 		return maxHp;
 	}
 
-	public int getMaxDamage() {
-		return maxDamage;
-	}
-	
+	/**
+	 * It changes maximum hp of unit.
+	 * 
+	 * @param maxHp
+	 *            maximum hp
+	 */
 	public void setMaxHp(int maxHp) {
 		this.maxHp = maxHp;
 	}
 
+	/**
+	 * It gets the cooldown rate of unit.
+	 * 
+	 * @return cooldown
+	 */
 	public int getCooldown() {
 		return cooldown;
 	}
 
-	public boolean isFacingLeft() {
-		return isFacingLeft;
+	/**
+	 * It changes the cooldown rate of unit.
+	 * 
+	 * @param cooldown
+	 */
+	public void setCooldown(int cooldown) {
+		this.cooldown = cooldown;
 	}
 
-	public float getSpeed() {
-		return speed;
-	}
-
-	public void getsDamaged(int damage) {
-		
-	};
-
-	
+	@Override
 	public void render(Graphics g, int camMinX, int camMinY) {
 		Image image = this.image;
 		if (isFacingLeft == true)
 			image = image.getFlippedCopy(true, false);
-
+		// Draw player sprite
 		image.drawCentered((int) xPos - camMinX, (int) yPos - camMinY);
-		
+
 		Color VALUE = new Color(1.0f, 1.0f, 1.0f); // White
 		Color BAR_BG = new Color(0.0f, 0.0f, 0.0f, 0.8f); // Black, transp
 		Color BAR = new Color(0.8f, 0.0f, 0.0f, 0.8f); // Red, transp
 		// Variables for layout
-		int bar_x, bar_y; // Coordinates to draw rectangles
-		int bar_width, bar_height; // Size of rectangle to draw
-		int hp_bar_width; // Size of red (HP) rectangle
-		float health_percent; // Player's health, as a percentage
+		int barX, barY; // Coordinates to draw rectangles
+		int barWidth, barHeight; // Size of rectangle to draw
+		int hpBarWidth; // Size of red (HP) rectangle
+		float healthPercent; // Player's health, as a percentage
 
-		
-		bar_width = image.getWidth();
-		bar_height = 20;
+		barWidth = image.getWidth();
+		barHeight = 20;
 
-		
-
-		if (RPG.getFontWidth(name) + 6 > image.getWidth()) {
-			bar_width = RPG.getFontWidth(name) + 6;
+		if (RPG.getTextWidth(name) + 6 > image.getWidth()) {
+			barWidth = RPG.getTextWidth(name) + 6;
+		} else {
+			barWidth = image.getWidth();
 		}
-		else {
-			bar_width = image.getWidth();
-		}
-		
-		bar_x = (int) xPos - bar_width / 2 - camMinX;;
-		bar_y = (int) yPos - image.getHeight() / 2 - bar_height - camMinY;
-		health_percent = (float) hp /maxHp;
-		hp_bar_width = (int) (bar_width * health_percent);
+
+		barX = (int) xPos - barWidth / 2 - camMinX;
+		barY = (int) yPos - image.getHeight() / 2 - barHeight - camMinY;
+		healthPercent = (float) hp / maxHp;
+		hpBarWidth = (int) (barWidth * healthPercent);
+		// Draw health bar and its background.
 		g.setColor(BAR_BG);
-		g.fillRect(bar_x, bar_y, bar_width, bar_height);
+		g.fillRect(barX, barY, barWidth, barHeight);
 		g.setColor(BAR);
-		g.fillRect(bar_x, bar_y, hp_bar_width, bar_height);
+		g.fillRect(barX, barY, hpBarWidth, barHeight);
 		g.setColor(VALUE);
-		g.drawString(name, bar_x + 3, bar_y);
-		
-		
+		g.drawString(name, barX + 3, barY);
+
 	}
 
 	/**
@@ -150,7 +234,7 @@ public abstract class Unit extends Entity {
 	 */
 	public boolean update(World world, int delta, float xDir, float yDir,
 			float xPosNew, float yPosNew) {
-		
+
 		boolean moved = true;
 
 		// Sets player to face in direction of movement.
@@ -182,13 +266,17 @@ public abstract class Unit extends Entity {
 		return moved;
 	}
 
+	/**
+	 * It gets a random number between the given range.
+	 * 
+	 * @param min
+	 *            The minimum number.
+	 * @param max
+	 *            The maximum number.
+	 * @return A random number.
+	 */
 	public static int getRandom(int min, int max) {
 		int random = min + (int) (Math.random() * (max - min + 1));
 		return random;
 	}
-
-	public void tryToInteract(List<Item> Inventory, int delta, Player player, boolean interactPressed) {
-	}
-	
-
 }
