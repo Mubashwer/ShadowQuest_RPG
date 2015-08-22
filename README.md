@@ -8,3 +8,16 @@ Username: mskh
 StudentID: 601738
 
 
+### Requirements? ###
+
+* Eclipse
+* Java SE Development Kit
+
+### How to run? ###
+
+* Play "RPG" main class to play the game
+
+
+
+
+
